@@ -1,0 +1,33 @@
+* {
+    align-items: center;
+    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.normalText {
+    color: #fff;
+    font-size: medium;
+}
+a:any-link {
+    color: #39adad;
+    text-decoration: none;
+}
+a:any-link:hover {
+    text-decoration: underline;
+}
+body {
+    background-color: #151515;
+}
+h1 {
+    color: #39adad;
+    margin-bottom: 50px;
+}
+#button {
+    font-size: 15px;
+    border: 2px solid #39adad;
+    outline: 0;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+#button:hover {
+    border: 2px solid #ae5ab6;
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign In</title>
+        <link rel="stylesheet" href="./signin.css">
+        <link rel="icon" href="../icon.png">
+    </head>
+
+    <body>
+        <noscript>Please enable JavaScript to use this website!</noscript>
+        
+        <h1>Sign In</h1>
+        
+        <p class="label">Email</p>
+        <input maxlength="50" class="inputBox" type="email" id="email" name="email" placeholder="Email">
+
+        <p class="label">Password</p>
+        <input maxlength="20" class="inputBox" type="password" id="password" name="password" placeholder="Password">
+
+        <p id="statusEl"> </p>
+
+        <button id="submitButton">Submit</button>
+
+        <p class="footer">Alternatively, if you don't have an account, you can <a href="../signup/signup.html">sign up.</a></p>
+
+        <script src="./signin.js" defer></script>
+    </body>
+</html>
