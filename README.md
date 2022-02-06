@@ -11,8 +11,6 @@
   <li>Enjoy :)</li>
 </ul>
 
-  
-
 <h3>How to deploy API?</h3>
 <ul>
   <li>Download the <a  href="https://devcenter.heroku.com/articles/heroku-cli">heroku CLI</a></kli>
