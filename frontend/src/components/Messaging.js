@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const Messaging = () => {
     const baseURL = require("../config.json").apiURL;
@@ -86,9 +86,9 @@ const Messaging = () => {
                     }
 
                     function setMessages(message, index, author) {
-                        if (previousMessages[index] != message) {
+                        if (previousMessages[index] !== message) {
                             const newMessage = document.createElement("li");
-                            if (author == username) {
+                            if (author === username) {
                                 newMessage.classList.add("myMessage");
                                 newMessage.textContent = `Me: ${message}`;
                             } else {
