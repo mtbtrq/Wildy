@@ -21,33 +21,21 @@ app.post("/createaccount", async (req, res) => {
 
         if (email) {
             if (email.length < 4) {
-                res.send({
-                    success: false,
-                    cause: "Please enter valid email!"
-                })
-                return
-            }
-        }
+                return res.send({ success: false, cause: "Please enter valid email!" })
+            } else if (email.length > 30) return res.send({ success: false, cause: "Email should be lesser than 30 characters in length!" })
+        } else return res.send({ success: false, cause: "No email provided!" })
 
         if (password) {
             if (password.length < 5) {
-                res.send({
-                    success: false,
-                    cause: "Password should be more than 5 characters in length!"
-                })
-                return
-            }
-        }
+                return res.send({ success: false, cause: "Password should be more than 5 characters in length!" })
+            } else if (password.length > 30) return res.send({ success: false, cause: "Password should be lesser than 30 characters in length!" })
+        } else return res.send({ success: false, cause: "No password provided!" })
 
         if (username) {
             if (username.length < 5) {
-                res.send({
-                    success: false,
-                    cause: "Username should be more than 5 characters in length!"
-                })
-                return
-            }
-        }
+                return res.send({ success: false, cause: "Username should be more than 5 characters in length!" })
+            } else if (username.length > 30) return res.send({ success: false, cause: "Username should be lesser than 30 characters in length!" })
+        } else return res.send({ success: false, cause: "No username provided!" })
 
         const emailSelectStatement = db.prepare(`SELECT * FROM ${tableName} WHERE email = ?`);
         const emailData = emailSelectStatement.get(email);

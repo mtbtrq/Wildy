@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Signin = () => {
     const handleClick = async () => {
@@ -32,7 +33,7 @@ const Signin = () => {
         
         await fetch(url, options).then(async response => {
             const jsonResponse = await response.json();
-            if (jsonResponse.success === !0) {
+            if (jsonResponse.success) {
                 statusEl.textContent = `Successfully signed in as ${jsonResponse["username"]}`;
                 localStorage.setItem("username", jsonResponse["username"]);
                 localStorage.setItem("password", passwordEl.value);
@@ -59,7 +60,7 @@ const Signin = () => {
 
             <button onClick={handleClick} id="submitButton">Submit</button>
 
-            <p className="footer">Alternatively, if you don't have an account, you can <a href="/signup">sign up.</a></p>
+            <p className="footer">Alternatively, if you don't have an account, you can <Link to="/signup">sign up.</Link></p>
         </>
     );
 };
