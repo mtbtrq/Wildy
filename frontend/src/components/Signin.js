@@ -9,7 +9,7 @@ const Signin = () => {
         const username = localStorage.getItem("username");
         const password = localStorage.getItem("password");
         
-        const baseURL = "https://chatapplication124.up.railway.app";
+        const baseURL = require("../config.json").apiURL;
         
         if (username && password) {
             window.document.location = "/messaging";

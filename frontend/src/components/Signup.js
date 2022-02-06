@@ -11,7 +11,7 @@ const Signup = () => {
         const local_username = localStorage.getItem("username");
         const local_password = localStorage.getItem("password");
 
-        const baseURL = "https://chatapplication124.up.railway.app";
+        const baseURL = require("../config.json").apiURL;
 
         if (local_username && local_password) {
             window.document.location = "/messaging";
