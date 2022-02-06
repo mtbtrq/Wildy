@@ -8,7 +8,7 @@ app.use(cors())
 const db = new Database(config["databaseName"]);
 
 const tableName = config["tableName"];
-const port = config["port"];
+const port = process.env.PORT || config.port;
 
 const createAccountRoute = require("./routes/createAccount");
 app.use("/", createAccountRoute);
