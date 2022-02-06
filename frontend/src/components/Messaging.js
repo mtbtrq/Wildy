@@ -24,13 +24,13 @@ const Messaging = () => {
 
                     signOutEl.addEventListener("click", () => {
                         localStorage.clear();
-                        window.document.location = "../index.html";
+                        window.document.location = "/";
                     });
 
                     let previousMessages = [];
 
                     if (!username || !password) {
-                        window.document.location = "../index.html";
+                        window.document.location = "/";
                     }
 
                     button.addEventListener("click", main);
@@ -95,11 +95,12 @@ const Messaging = () => {
                                 newMessage.classList.add("notMyMessage");
                                 newMessage.textContent = `${author}: ${message}`;
                             }
+                            ;
                             messagesEl.appendChild(newMessage);
                             previousMessages.push(message);
-                        }
-                    }
-                })    
+                        };
+                    };
+                })
             }</script>
 		</>
 	);
