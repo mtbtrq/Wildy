@@ -1,9 +1,4 @@
-
-  
-
-  
-
-<h1>Full Stack Web Application</h1>
+<h1>Full Stack Chat Application</h1>
 
 <p>Here we go again</p>
 
