@@ -1,7 +1,5 @@
 <h1>Full Stack Chat Application</h1>
 
-<p>Here we go again</p>
-
 <h3>How to run?</h3>
 <ul>
   <li>Go to the <code>server</code> folder, and run <code>install_deps.bat</code> to install all the dependencies.</kli>
