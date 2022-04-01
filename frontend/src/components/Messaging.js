@@ -9,7 +9,7 @@ const Messaging = () => {
             <div className="parent">
                 <ul id="messages"></ul>
             </div>
-            <input className="inputBox" id="inputEl" maxLength="200" type="text" autoComplete="off" placeholder="Enter your message here" />
+            <input className="inputBox" id="inputEl" maxLength="100" type="text" autoComplete="off" placeholder="Enter your message here" />
             <button id="submitButton">Send</button>
             <script>{
                 window.addEventListener("DOMContentLoaded", () => {
@@ -39,7 +39,7 @@ const Messaging = () => {
                         const message = inputEl.value;
                         inputEl.value = "";
                         
-                        if (message.length < 2) {
+                        if (message.length < 1) {
                             return;
                         }
 
@@ -78,6 +78,8 @@ const Messaging = () => {
                         });
 
                         const jsonResponse = await response.json();
+                        if (!jsonResponse.success && jsonResponse.causeCode === "incorrect-pw") return window.document.location = "/";
+                        
                         const msgs = jsonResponse["data"];
 
                         msgs.forEach((msg, index) => {
@@ -94,8 +96,7 @@ const Messaging = () => {
                             } else {
                                 newMessage.classList.add("notMyMessage");
                                 newMessage.textContent = `${author}: ${message}`;
-                            }
-                            ;
+                            };
                             messagesEl.appendChild(newMessage);
                             previousMessages.push(message);
                         };

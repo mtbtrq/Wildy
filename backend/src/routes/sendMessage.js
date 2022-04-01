@@ -25,6 +25,9 @@ app.post("/send", (req, res) => {
     const message = req.body.message;
     const password = req.body.password;
 
+    if (message) return res.send({ success: false, cause: "No message provided!" })
+    if (message.length > 100) return res.send({ success: false, cause: "Messages longer than 100 characters are not allowed!" })
+
     const usernameSelectStatement = db.prepare(`SELECT * FROM ${accountsTableName} WHERE username = ?`);
     const usernameData = usernameSelectStatement.get(username);
     const dbPassword = usernameData["password"]

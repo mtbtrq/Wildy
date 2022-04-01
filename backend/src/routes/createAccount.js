@@ -22,7 +22,7 @@ app.post("/createaccount", async (req, res) => {
         if (email) {
             if (email.length < 4) {
                 return res.send({ success: false, cause: "Please enter valid email!" })
-            } else if (email.length > 30) return res.send({ success: false, cause: "Email should be lesser than 30 characters in length!" })
+            } else if (email.length > 50) return res.send({ success: false, cause: "Email should be lesser than 50 characters in length!" })
         } else return res.send({ success: false, cause: "No email provided!" })
 
         if (password) {
