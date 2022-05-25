@@ -2,10 +2,10 @@
 
 <h3>How to run?</h3>
 <ul>
-  <li>Go to the <code>server</code> folder, and run <code>install_deps.bat</code> to install all the dependencies.</kli>
-  <li>Then navigate to into the <code>src</code> folder</li>
-  <li>Run <code>run.bat</code>, and it will start a express API server on <code>localhost:5000</code> (you can change this in config.json, but I suggest you don't, as you'll have to change the port manually in the other js files in the client directory aswell.)</li>
-  <li>Go to the <code>client</code> folder, and run index.html, by double clicking on it, or any other method.</li>
+  <li>Go to the <code>backend</code> folder, and run <code>install_deps.bat</code> to install all the dependencies.</kli>
+  <li>Then navigate into the <code>src</code> folder, and run <code>run.bat</code>. It will start an express API server on <code>localhost:5000</code></li>
+  <li>Go to the <code>frontend</code> folder, and run <code>install_deps.bat</code> to install all the dependencies.</li>
+  <li>Edit <code>config.json</code> in the folder to suit your needs, and finally, run <code>run.bat</code></li> to start the frontend server.
   <li>Enjoy :)</li>
 </ul>
 
@@ -20,9 +20,7 @@
   <li>Open a new terminal and navigate to the directory with the API in it.</li>
   <li>Type <code>git init</code></li>
   <li>Type <code>git add .</code></li>
-  <li>Type <code>git commit -m "anything you want, or you could just leave this as is"</code></li>
-  <li>Type <code>heroku create</code> or <code>heroku create {any name you would like</code></li>
+  <li>Type <code>git commit -m "{anything you want, or you could just leave this as is}"</code></li>
+  <li>Type <code>heroku create</code> or <code>heroku create {any name you would like to choose}</code></li>
   <li>Then type <code>git push heroku main</code>, if that doesn't work type <code>git push heroku master</code></li>
 </ul>
-
-If you have any queries, contact me on discord Mutyyab.#4275.
