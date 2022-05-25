@@ -22,5 +22,5 @@
   <li>Type <code>git add .</code></li>
   <li>Type <code>git commit -m "{anything you want, or you could just leave this as is}"</code></li>
   <li>Type <code>heroku create</code> or <code>heroku create {any name you would like to choose}</code></li>
-  <li>Then type <code>git push heroku main</code>, if that doesn't work type <code>git push heroku master</code></li>
+  <li>Finally, type <code>git push heroku main</code>, if that doesn't work type <code>git push heroku master</code></li>
 </ul>
