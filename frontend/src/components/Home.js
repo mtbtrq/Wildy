@@ -14,45 +14,6 @@ function Home() {
 
             <Link to="/signup"><button id="button">Sign Up</button></Link>
             <Link to="/signin"><button id="button">Sign In</button></Link>
-
-            <script>
-                {
-                    window.addEventListener("DOMContentLoaded", async () => {
-                        const email = localStorage.getItem("email");
-                        const password = localStorage.getItem("password");
-                        
-                        if (email && password) {
-                            console.log("yes")
-                            const data = {
-                                "email": email,
-                                "password": password
-                            }
-
-                            const baseURL = require("../config.json").apiURL;
-                            const url = `${baseURL}/signin`;
-                            
-                            const options = {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(data)
-                            }
-                            
-                            await fetch(url, options).then(async response => {
-                                const jsonResponse = await response.json();
-                                if (jsonResponse.success) {
-                                    window.document.location = "/messaging";
-                                } else {
-                                    localStorage.removeItem("email");
-                                    localStorage.removeItem("password");
-                                    localStorage.removeItem("username");
-                                }
-                            })
-                        }
-                    })
-                }
-            </script>
         </div>
     );
 };
