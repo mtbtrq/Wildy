@@ -17,14 +17,15 @@ const Signup = () => {
             window.document.location = "/messaging";
         }
 
-        const data = {
-            "email": emailEl.value,
-            "password": passwordEl.value,
-            "username": usernameEl.value
-        };
-
         const password = passwordEl.value;
         const username = usernameEl.value;
+        const email = emailEl.value;
+
+        const data = {
+            "email": email,
+            "password": password,
+            "username": username
+        };
 
         const url = `${baseURL}/createaccount`;
         const options = {
@@ -40,10 +41,11 @@ const Signup = () => {
                 statusEl.textContent = "Account Created!"
                 localStorage.setItem("username", username);
                 localStorage.setItem("password", password);
+                localStorage.setItem("email", email);
                 emailEl.value = "";
                 passwordEl.value = "";
                 usernameEl.value = "";
-                window.location.href = "/messaging";
+                window.document.location = "/messaging";
             } else {
                 statusEl.textContent = jsonResponse.cause
             }
@@ -68,6 +70,44 @@ const Signup = () => {
             <button onClick={handleClick} id="submitButton">Submit</button>
             
             <p className="footer">Alternatively, if you have an account, you can <Link to="/signin">sign in.</Link></p>
+
+            <script>
+                {
+                    window.addEventListener("DOMContentLoaded", async () => {
+                        const email = localStorage.getItem("email");
+                        const password = localStorage.getItem("password");
+                        
+                        if (email && password) {
+                            const data = {
+                                "email": email,
+                                "password": password
+                            }
+
+                            const baseURL = require("../config.json").apiURL;
+                            const url = `${baseURL}/signin`;
+                            
+                            const options = {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(data)
+                            }
+                            
+                            await fetch(url, options).then(async response => {
+                                const jsonResponse = await response.json();
+                                if (jsonResponse.success) {
+                                    window.document.location = "/messaging";
+                                } else {
+                                    localStorage.removeItem("email");
+                                    localStorage.removeItem("password");
+                                    localStorage.removeItem("username");
+                                }
+                            })
+                        }
+                    })
+                }
+            </script>
         </>
     );
 };

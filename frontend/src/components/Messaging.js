@@ -12,8 +12,9 @@ const Messaging = () => {
             <input className="inputBox" id="inputEl" maxLength="50" type="text" autoComplete="off" placeholder="Enter your message here" />
             <button id="submitButton">Send</button>
             <script>{
-                window.addEventListener("DOMContentLoaded", () => {
+                window.addEventListener("DOMContentLoaded", async () => {
                     const username = localStorage.getItem("username");
+                    const email = localStorage.getItem("email");
                     const password = localStorage.getItem("password");
                     const inputEl = document.getElementById("inputEl");
                     const messagesEl = document.getElementById("messages");
@@ -29,9 +30,32 @@ const Messaging = () => {
 
                     let previousMessages = [];
 
-                    if (!username || !password) {
-                        window.document.location = "/";
-                    }
+                    if (email && password) {
+                        const data = {
+                            "email": email,
+                            "password": password
+                        };
+
+                        const baseURL = require("../config.json").apiURL;
+                        const url = `${baseURL}/signin`;
+                        
+                        const options = {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(data)
+                        };
+                        
+                        await fetch(url, options).then(async response => {
+                            const jsonResponse = await response.json();
+                            if (!jsonResponse.success) {
+                                localStorage.removeItem("email");
+                                localStorage.removeItem("password");
+                                localStorage.removeItem("username");
+                            };
+                        });
+                    };
 
                     button.addEventListener("click", main);
 
