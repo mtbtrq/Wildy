@@ -6,7 +6,7 @@ function Home() {
         <div>
             <h1>ChatApp</h1>
 
-            <p className="normalText">Simple, elegant, yet functional.</p>
+            <p className="normalText">Not the perfect means of communication, but it works :)</p>
 
             <p className="normalText">To continue, perform any of the actions below.</p>
 
