@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Home() {
     return (
         <div>
-            <h1>ChatApp</h1>
+            <h1>Chat Application</h1>
 
             <p className="normalText">Not the perfect means of communication, but it works :)</p>
 
