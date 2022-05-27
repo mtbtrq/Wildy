@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 const Signin = () => {
     const handleClick = async () => {
-        const emailEl = document.getElementById("email");
+        const usernameEl = document.getElementById("username");
         const passwordEl = document.getElementById("password");
         const statusEl = document.getElementById("statusEl");
         
         const baseURL = require("../config.json").apiURL;
         
         const data = {
-            "email": emailEl.value,
+            "username": usernameEl.value,
             "password": passwordEl.value
         }
         
@@ -28,10 +28,9 @@ const Signin = () => {
             const jsonResponse = await response.json();
             if (jsonResponse.success) {
                 statusEl.textContent = `Successfully signed in as ${jsonResponse["username"]}`;
-                localStorage.setItem("username", jsonResponse["username"]);
                 localStorage.setItem("password", passwordEl.value);
-                localStorage.setItem("email", emailEl.value);
-                emailEl.value = "";
+                localStorage.setItem("username", usernameEl.value);
+                usernameEl.value = "";
                 passwordEl.value = "";
                 window.document.location = "/messaging";
             } else {
@@ -44,8 +43,8 @@ const Signin = () => {
         <>
             <h1>Sign In</h1>
         
-            <p className="label">Email</p>
-            <input maxLength="50" className="inputBox" type="email" id="email" name="email" placeholder="Email" />
+            <p className="label">Username</p>
+            <input maxLength="50" className="inputBox" type="username" id="username" name="username" placeholder="Username" />
 
             <p className="label">Password</p>
             <input maxLength="20" className="inputBox" type="password" id="password" name="password" placeholder="Password" />
