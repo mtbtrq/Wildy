@@ -20,10 +20,6 @@ a:any-link:hover {
     text-decoration: underline;
 }
 
-body {
-    background-color: #151515;
-}
-
 #button, #submitButton {
     font-size: 15px;
     border: 2px solid #39adad;
@@ -55,16 +51,6 @@ a:any-link:hover {
     text-decoration: underline;
 }
 
-body {
-    background-color: #151515;
-}
-
-.label {
-    font-size: large;
-    color: #fff;
-    margin: 5px 0;
-}
-
 #statusEl {
     font-size: large;
     color: #fff;
@@ -81,17 +67,6 @@ a:any-link:hover {
 
 body {
     background-color: #151515;
-}
-
-.label {
-    font-size: large;
-    color: #fff;
-    margin: 5px 0;
-}
-
-#statusEl {
-    font-size: large;
-    color: #fff;
 }
 
 h1 {
@@ -108,17 +83,7 @@ a:any-link:hover {
     text-decoration: underline;
 }
 
-body {
-    background-color: #151515;
-}
-
 .label {
-    font-size: large;
-    color: #fff;
-    margin: 5px 0;
-}
-
-#statusEl {
     font-size: large;
     color: #fff;
 }
@@ -127,7 +92,6 @@ body {
     padding: 3px 5px;
     margin-bottom: 3px;
     font-size: small;
-    margin-top: 30px;
     border-radius: 5px;
     border: 2px solid #39adad;
     outline: 0;
@@ -143,7 +107,7 @@ li {
     border-radius: 5px;
     word-wrap: break-word;
     margin: 5px;
-    padding: 5px 5px;
+    padding: 3px 5px;
     max-width: 300px;
 }
 
@@ -157,12 +121,12 @@ li {
     background-color: #151515;
 }
 
-div.parent {
-    text-align: center;
-}
-
 ul {
     display: inline-block;
+}
+
+#inputEl {
+    margin-top: 20px;
 }
 
 .text {
