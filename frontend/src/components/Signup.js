@@ -3,26 +3,16 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
     const handleClick = async () => {
-        const emailEl = document.getElementById("email");
         const usernameEl = document.getElementById("username");
         const passwordEl = document.getElementById("password");
         const statusEl = document.getElementById("statusEl");
 
-        const local_username = localStorage.getItem("username");
-        const local_password = localStorage.getItem("password");
-
         const baseURL = require("../config.json").apiURL;
-
-        if (local_username && local_password) {
-            window.document.location = "/messaging";
-        }
 
         const password = passwordEl.value;
         const username = usernameEl.value;
-        const email = emailEl.value;
 
         const data = {
-            "email": email,
             "password": password,
             "username": username
         };
@@ -41,8 +31,6 @@ const Signup = () => {
                 statusEl.textContent = "Account Created!"
                 localStorage.setItem("username", username);
                 localStorage.setItem("password", password);
-                localStorage.setItem("email", email);
-                emailEl.value = "";
                 passwordEl.value = "";
                 usernameEl.value = "";
                 window.document.location = "/messaging";
@@ -59,9 +47,6 @@ const Signup = () => {
             <p className="label">Username</p>
             <input maxLength="20" className="inputBox" autoComplete="off" type="text" id="username" name="username" placeholder="Username" />
             
-            <p className="label">Email</p>
-            <input maxLength="50" className="inputBox" autoComplete="off" type="email" id="email" name="email" placeholder="Email" />
-            
             <p className="label">Password</p>
             <input maxLength="20" className="inputBox" autoComplete="off" type="password" id="password" name="password" placeholder="Password" />
             
@@ -74,12 +59,12 @@ const Signup = () => {
             <script>
                 {
                     window.addEventListener("DOMContentLoaded", async () => {
-                        const email = localStorage.getItem("email");
+                        const username = localStorage.getItem("username");
                         const password = localStorage.getItem("password");
                         
-                        if (email && password) {
+                        if (username && password) {
                             const data = {
-                                "email": email,
+                                "username": username,
                                 "password": password
                             }
 
@@ -99,7 +84,6 @@ const Signup = () => {
                                 if (jsonResponse.success) {
                                     window.document.location = "/messaging";
                                 } else {
-                                    localStorage.removeItem("email");
                                     localStorage.removeItem("password");
                                     localStorage.removeItem("username");
                                 }

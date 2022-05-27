@@ -9,16 +9,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const db = new Database(config["databaseName"]);
 
+const accountsTableName = config["tableName"];
 const tableName = config["msgTableName"];
-const accountsTableName = config["tableName"]
-
-const createMessageTableStatement =
-db.prepare(`CREATE TABLE IF NOT EXISTS ${tableName} (
-    username text,
-    message text,
-    messageid integer primary key autoincrement
-)`);
-createMessageTableStatement.run();
 
 app.post("/send", (req, res) => {
     const username = req.body.username;
@@ -26,7 +18,7 @@ app.post("/send", (req, res) => {
     const password = req.body.password;
 
     if (!message) return res.send({ success: false, cause: "No message provided!" })
-    if (message.length > 50) return res.send({ success: false, cause: "Messages longer than 100 characters are not allowed!" })
+    if (message.length > 100) return res.send({ success: false, cause: "Messages longer than 100 characters are not allowed!" })
 
     const usernameSelectStatement = db.prepare(`SELECT * FROM ${accountsTableName} WHERE username = ?`);
     const usernameData = usernameSelectStatement.get(username);

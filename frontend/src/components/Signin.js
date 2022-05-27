@@ -59,12 +59,12 @@ const Signin = () => {
             <script>
                 {
                     window.addEventListener("DOMContentLoaded", async () => {
-                        const email = localStorage.getItem("email");
+                        const username = localStorage.getItem("username");
                         const password = localStorage.getItem("password");
                         
-                        if (email && password) {
+                        if (username && password) {
                             const data = {
-                                "email": email,
+                                "username": username,
                                 "password": password
                             }
 
@@ -84,7 +84,6 @@ const Signin = () => {
                                 if (jsonResponse.success) {
                                     window.document.location = "/messaging";
                                 } else {
-                                    localStorage.removeItem("email");
                                     localStorage.removeItem("password");
                                     localStorage.removeItem("username");
                                 }

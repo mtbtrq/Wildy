@@ -14,7 +14,6 @@ const Messaging = () => {
             <script>{
                 window.addEventListener("DOMContentLoaded", async () => {
                     const username = localStorage.getItem("username");
-                    const email = localStorage.getItem("email");
                     const password = localStorage.getItem("password");
                     const inputEl = document.getElementById("inputEl");
                     const messagesEl = document.getElementById("messages");
@@ -30,9 +29,9 @@ const Messaging = () => {
 
                     let previousMessages = [];
 
-                    if (email && password) {
+                    if (username && password) {
                         const data = {
-                            "email": email,
+                            "username": username,
                             "password": password
                         };
 
@@ -50,7 +49,6 @@ const Messaging = () => {
                         await fetch(url, options).then(async response => {
                             const jsonResponse = await response.json();
                             if (!jsonResponse.success) {
-                                localStorage.removeItem("email");
                                 localStorage.removeItem("password");
                                 localStorage.removeItem("username");
                             };

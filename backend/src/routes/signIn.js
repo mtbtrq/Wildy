@@ -13,22 +13,16 @@ const tableName = config["tableName"];
 
 app.post("/signin", (req, res) => {
     try {
-        const data = req.body;
+        const username = req.body.username;
+        const password = req.body.password;
 
-        const email = data.email;
-        const password = data.password;
-
-        const emailSelectStatement = db.prepare(`SELECT * FROM ${tableName} WHERE email = ?`);
-        const emailData = emailSelectStatement.get(email);
-
-        const dbPassword = emailData["password"]
-        const username = emailData["username"]
+        const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
+        const dbPassword = usernameData["password"]
 
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
                 res.send({
-                    success: true,
-                    username: username
+                    success: true
                 })
             } else {
                 res.send({
@@ -41,7 +35,7 @@ app.post("/signin", (req, res) => {
         console.log(err);
         res.send({
             success: false,
-            cause: "No account found with the provided email!"
+            cause: "No account found with the provided username!"
         });
     }
 });

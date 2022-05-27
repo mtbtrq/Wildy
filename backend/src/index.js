@@ -7,7 +7,6 @@ const app = express();
 app.use(cors())
 const db = new Database(config["databaseName"]);
 
-const tableName = config["tableName"];
 const port = process.env.PORT || config.port;
 
 const createAccountRoute = require("./routes/createAccount");
@@ -22,23 +21,21 @@ app.use("/msg", sendMessage);
 const getMessage = require("./routes/getMessages");
 app.use("/msg", getMessage);
 
-const createTableStatement =
-    db.prepare(`CREATE TABLE IF NOT EXISTS ${tableName} (
-    email text,
+db.prepare(`CREATE TABLE IF NOT EXISTS ${config["tableName"]} (
     password text,
     username text
-)`);
-createTableStatement.run();
+)`).run();
 
-app.get("/get", (req, res) => {
-    const selectStatement = db.prepare(`SELECT * FROM ${tableName}`);
-    const data = selectStatement.all();
+db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
+    username text,
+    message text,
+    messageid integer primary key autoincrement
+)`).run();
 
-    res.send({
-        success: true,
-        data: data,
-    });
-});
+setInterval(() => {
+    db.prepare(`DELETE FROM ${config["msgTableName"]}`).run()
+    console.log("Cleared all messages!")
+}, 3600000)
 
 app.listen(port, () => {
     console.log(`I am listening to requests on port ${port}`);

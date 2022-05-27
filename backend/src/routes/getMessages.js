@@ -16,10 +16,7 @@ app.post("/get", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    const usernameSelectStatement = db.prepare(
-        `SELECT * FROM ${accountsTableName} WHERE username = ?`
-    );
-    const usernameData = usernameSelectStatement.get(username);
+    const usernameData = db.prepare(`SELECT * FROM ${accountsTableName} WHERE username = ?`).get(username);
     const dbPassword = usernameData["password"];
 
     bcrypt.compare(password, dbPassword, (err, result) => {
