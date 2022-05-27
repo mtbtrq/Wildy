@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Sora:wght@600&display=swap');
+
 * {
     align-items: center;
     text-align: center;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Poppins", "Segoe UI";
 }
 
 .normalText {
@@ -22,12 +24,7 @@ body {
     background-color: #151515;
 }
 
-h1 {
-    color: #39adad;
-    margin-bottom: 50px;
-}
-
-#button {
+#button, #submitButton {
     font-size: 15px;
     border: 2px solid #39adad;
     outline: 0;
@@ -36,9 +33,10 @@ h1 {
     margin-left: 5px;
     margin-right: 5px;
     padding-bottom: 3px;
+    padding-top: 0px;
 }
 
-#button:hover {
+#button:hover, #submitButton:hover {
     border: 2px solid #ae5ab6;
 }
 
@@ -72,14 +70,28 @@ body {
     color: #fff;
 }
 
-.inputBox {
-    padding: 5px 5px;
-    margin-bottom: 3px;
-    font-size: small;
-    border-radius: 5px;
-    border: 2px solid #39adad;
-    outline: 0;
-    width: 200px;
+a:any-link {
+    color: #39adad;
+    text-decoration: none;
+}
+
+a:any-link:hover {
+    text-decoration: underline;
+}
+
+body {
+    background-color: #151515;
+}
+
+.label {
+    font-size: large;
+    color: #fff;
+    margin: 5px 0;
+}
+
+#statusEl {
+    font-size: large;
+    color: #fff;
 }
 
 h1 {
@@ -87,111 +99,35 @@ h1 {
     margin-bottom: 50px;
 }
 
-#submitButton {
+a:any-link {
+    color: #39adad;
+    text-decoration: none;
+}
+
+a:any-link:hover {
+    text-decoration: underline;
+}
+
+body {
+    background-color: #151515;
+}
+
+.label {
+    font-size: large;
+    color: #fff;
+    margin: 5px 0;
+}
+
+#statusEl {
+    font-size: large;
+    color: #fff;
+}
+
+.inputBox {
+    padding: 3px 5px;
+    margin-bottom: 3px;
+    font-size: small;
     margin-top: 30px;
-    font-size: 15px;
-    border: 2px solid #39adad;
-    outline: 0;
-    border-radius: 5px;
-    transition: 0.5s;
-}
-
-#submitButton:hover {
-    border: 2px solid #ae5ab6;
-}
-
-.footer {
-    color: #fff;
-    margin-top: 50px;
-    font-size: small;
-}
-
-a:any-link {
-    color: #39adad;
-    text-decoration: none;
-}
-
-a:any-link:hover {
-    text-decoration: underline;
-}
-
-body {
-    background-color: #151515;
-}
-
-.label {
-    font-size: large;
-    color: #fff;
-    margin: 5px 0;
-}
-
-#statusEl {
-    font-size: large;
-    color: #fff;
-}
-
-.inputBox {
-    padding: 5px 5px;
-    margin-bottom: 3px;
-    font-size: small;
-    border-radius: 5px;
-    border: 2px solid #39adad;
-    outline: 0;
-    width: 200px;
-}
-
-h1 {
-    color: #39adad;
-    margin-bottom: 50px;
-}
-
-#submitButton {
-    margin-left: 10px;
-    font-size: 15px;
-    border: 2px solid #39adad;
-    outline: 0;
-    border-radius: 5px;
-    transition: 0.5s;
-}
-
-#submitButton:hover {
-    border: 2px solid #ae5ab6;
-}
-
-.footer {
-    color: #fff;
-    margin-top: 50px;
-    font-size: small;
-}
-
-a:any-link {
-    color: #39adad;
-    text-decoration: none;
-}
-
-a:any-link:hover {
-    text-decoration: underline;
-}
-
-body {
-    background-color: #151515;
-}
-
-.label {
-    font-size: large;
-    color: #fff;
-    margin: 5px 0;
-}
-
-#statusEl {
-    font-size: large;
-    color: #fff;
-}
-
-.inputBox {
-    padding: 5px 5px;
-    margin-bottom: 3px;
-    font-size: small;
     border-radius: 5px;
     border: 2px solid #39adad;
     outline: 0;
@@ -200,20 +136,6 @@ body {
 
 li {
     list-style: none;
-}
-
-#submitButton {
-    padding: 3px;
-    margin-top: 30px;
-    font-size: 15px;
-    border: 2px solid #39adad;
-    outline: 0;
-    border-radius: 5px;
-    transition: 0.5s;
-}
-
-#submitButton:hover {
-    border: 2px solid #ae5ab6;
 }
 
 .myMessage, .notMyMessage{
