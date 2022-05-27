@@ -35,7 +35,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
 setInterval(() => {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run()
     console.log("Cleared all messages!")
-}, 3600000)
+}, 18000000)
 
 app.listen(port, () => {
     console.log(`I am listening to requests on port ${port}`);
