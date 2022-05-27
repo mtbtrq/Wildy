@@ -216,24 +216,23 @@ li {
     border: 2px solid #ae5ab6;
 }
 
-.myMessage {
+.myMessage, .notMyMessage{
     color: white;
-    border: 1px solid #151515;
-    background-color: #39adad;
     border-radius: 5px;
-    width: 100%;
+    word-wrap: break-word;
     margin: 5px;
     padding: 5px 5px;
+    max-width: 300px;
+}
+
+.myMessage {
+    border: 1px solid #151515;
+    background-color: #39adad;
 }
 
 .notMyMessage {
-    color: white;
     border: 1px solid #39adad;
     background-color: #151515;
-    border-radius: 5px;
-    width: 100%;
-    margin: 5px;
-    padding: 5px 5px;
 }
 
 div.parent {
