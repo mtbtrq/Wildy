@@ -9,7 +9,7 @@ const Messaging = () => {
             <div className="parent">
                 <ul id="messages"></ul>
             </div>
-            <input className="inputBox" id="inputEl" maxLength="50" type="text" autoComplete="off" placeholder="Enter your message here" />
+            <input className="inputBox" id="inputEl" maxLength="100" type="text" autoComplete="off" placeholder="Enter your message here" />
             <button id="submitButton">Send</button>
             <script>{
                 window.addEventListener("DOMContentLoaded", async () => {
