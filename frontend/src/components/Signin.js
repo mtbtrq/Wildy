@@ -27,7 +27,7 @@ const Signin = () => {
         await fetch(url, options).then(async response => {
             const jsonResponse = await response.json();
             if (jsonResponse.success) {
-                statusEl.textContent = `Successfully signed in as ${jsonResponse["username"]}`;
+                statusEl.textContent = `Successfully signed in as ${usernameEl.value}`;
                 localStorage.setItem("password", passwordEl.value);
                 localStorage.setItem("username", usernameEl.value);
                 usernameEl.value = "";
