@@ -44,10 +44,11 @@ const Signup = () => {
         <>
             <h1>Sign Up</h1>
             
-            <p className="label">Username</p>
             <input maxLength="20" className="inputBox" autoComplete="off" type="text" id="username" name="username" placeholder="Username" />
             
-            <p className="label">Password</p>
+            <br />
+            <br />
+
             <input maxLength="20" className="inputBox" autoComplete="off" type="password" id="password" name="password" placeholder="Password" />
             
             <p id="statusEl"></p>

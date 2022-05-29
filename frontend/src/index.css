@@ -42,27 +42,9 @@ a:any-link:hover {
     font-size: small;
 }
 
-a:any-link {
-    color: #39adad;
-    text-decoration: none;
-}
-
-a:any-link:hover {
-    text-decoration: underline;
-}
-
 #statusEl {
     font-size: large;
     color: #fff;
-}
-
-a:any-link {
-    color: #39adad;
-    text-decoration: none;
-}
-
-a:any-link:hover {
-    text-decoration: underline;
 }
 
 body {
@@ -74,15 +56,6 @@ h1 {
     margin-bottom: 50px;
 }
 
-a:any-link {
-    color: #39adad;
-    text-decoration: none;
-}
-
-a:any-link:hover {
-    text-decoration: underline;
-}
-
 .label {
     font-size: large;
     color: #fff;
@@ -90,11 +63,10 @@ a:any-link:hover {
 
 .inputBox {
     padding: 3px 5px;
-    margin-bottom: 3px;
     font-size: small;
     border-radius: 5px;
     border: 2px solid #39adad;
-    outline: 0;
+    outline: none;
     width: 200px;
 }
 

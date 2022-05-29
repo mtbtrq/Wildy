@@ -43,10 +43,11 @@ const Signin = () => {
         <>
             <h1>Sign In</h1>
         
-            <p className="label">Username</p>
             <input maxLength="50" className="inputBox" type="username" id="username" name="username" placeholder="Username" />
 
-            <p className="label">Password</p>
+            <br />
+            <br />
+
             <input maxLength="20" className="inputBox" type="password" id="password" name="password" placeholder="Password" />
 
             <p id="statusEl"></p>
