@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 const Signin = () => {
@@ -35,9 +35,44 @@ const Signin = () => {
                 window.document.location = "/messaging";
             } else {
                 statusEl.textContent = jsonResponse.cause
-            }
-        })
-    }
+            };
+        });
+    };
+
+    useEffect(() => {
+        (async () => {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            
+            if (username && password) {
+                const data = {
+                    "username": username,
+                    "password": password
+                };
+
+                const baseURL = require("../config.json").apiURL;
+                const url = `${baseURL}/signin`;
+                
+                const options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                };
+                
+                await fetch(url, options).then(async response => {
+                    const jsonResponse = await response.json();
+                    if (jsonResponse.success) {
+                        window.document.location = "/messaging";
+                    } else {
+                        localStorage.removeItem("password");
+                        localStorage.removeItem("username");
+                    };
+                });
+            };
+        })();
+    }, [])
 
     return (
         <>
@@ -55,43 +90,6 @@ const Signin = () => {
             <button onClick={handleClick} id="submitButton">Submit</button>
 
             <p className="footer">Alternatively, if you don't have an account, you can <Link to="/signup">sign up.</Link></p>
-
-            <script>
-                {
-                    window.addEventListener("DOMContentLoaded", async () => {
-                        const username = localStorage.getItem("username");
-                        const password = localStorage.getItem("password");
-                        
-                        if (username && password) {
-                            const data = {
-                                "username": username,
-                                "password": password
-                            }
-
-                            const baseURL = require("../config.json").apiURL;
-                            const url = `${baseURL}/signin`;
-                            
-                            const options = {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify(data)
-                            }
-                            
-                            await fetch(url, options).then(async response => {
-                                const jsonResponse = await response.json();
-                                if (jsonResponse.success) {
-                                    window.document.location = "/messaging";
-                                } else {
-                                    localStorage.removeItem("password");
-                                    localStorage.removeItem("username");
-                                }
-                            })
-                        }
-                    })
-                }
-            </script>
         </>
     );
 };
