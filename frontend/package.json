@@ -1,7 +1,10 @@
 {
-  "name": "react-test",
-  "version": "0.1.0",
+  "name": "chat-application",
+  "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -9,21 +12,15 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "^2.1.3",
-    "socket.io-client": "^4.5.1",
-    "web-vitals": "^2.1.3"
+    "react-scripts": "5.0.0",
+    "socket.io-client": "^4.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "prod": "npm run build && serve -s build"
   },
   "browserslist": {
     "production": [
@@ -36,5 +33,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "serve": "^13.0.2"
   }
 }
