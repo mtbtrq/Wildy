@@ -22,7 +22,7 @@ const Signin = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
-        }
+        };
         
         await fetch(url, options).then(async response => {
             const jsonResponse = await response.json();
