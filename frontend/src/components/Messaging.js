@@ -13,6 +13,7 @@ const Messaging = () => {
         const signedInAsEl = document.getElementById("signedInAsEl");
         const signOutEl = document.getElementById("signOut");
         signedInAsEl.textContent = `Signed in as ${username}`;
+        const notificationSound = new Audio("https://cdn.discordapp.com/attachments/835071270117834773/980734087780270130/notification.mp3");
     
         signOutEl.addEventListener("click", () => {
             localStorage.clear();
@@ -80,13 +81,12 @@ const Messaging = () => {
         })();
 
         socket.on("newMessage", data => {
+            notificationSound.play()
             const newMessage = document.createElement("li");
             newMessage.classList.add("notMyMessage");
             newMessage.textContent = `${data.author}: ${data.message}`;
             messagesEl.appendChild(newMessage);
         });
-
-        getMessages();
 
         async function getMessages() {
             const response = await fetch(`${baseURL}/msg/get`, {
@@ -109,6 +109,7 @@ const Messaging = () => {
                 setMessages(msg.message, index, msg.username);
             });
         };
+        getMessages();
 
         function setMessages(message, index, author) {
             if (previousMessages[index] !== message) {

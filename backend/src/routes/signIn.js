@@ -16,6 +16,8 @@ app.post("/signin", (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
 
+        if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) }
+
         const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
         const dbPassword = usernameData["password"]
 

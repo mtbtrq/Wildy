@@ -1,8 +1,11 @@
 @echo off
-cd "./frontend"
+cd "./backend"
 call install_deps.bat
-cd "../backend"
+cd "../frontend"
 call install_deps.bat
+echo.
+echo.
+echo.
 echo.
 echo.
 echo Done installing dependencies!
