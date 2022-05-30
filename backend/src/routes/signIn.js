@@ -12,34 +12,33 @@ const db = new Database(config["databaseName"]);
 const tableName = config["tableName"];
 
 app.post("/signin", (req, res) => {
-    try {
-        const username = req.body.username;
-        const password = req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
-        if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) }
+    if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) }
 
-        const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
-        const dbPassword = usernameData["password"]
+    const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
+    const dbPassword = usernameData["password"]
 
-        bcrypt.compare(password, dbPassword, (err, result) => {
-            if (result) {
-                res.send({
-                    success: true
-                })
-            } else {
-                res.send({
-                    success: false,
-                    cause: "Incorrect password entered!",
-                });
-            }
-        });
-    } catch (err) {
-        console.log(err);
-        res.send({
+    if (!dbPassword) {
+        return res.send({
             success: false,
             cause: "No account found with the provided username!"
         });
-    }
+    };
+
+    bcrypt.compare(password, dbPassword, (err, result) => {
+        if (result) {
+            return res.send({
+                success: true
+            });
+        } else {
+            return res.send({
+                success: false,
+                cause: "Incorrect password entered!",
+            });
+        };
+    });
 });
 
 module.exports = app;

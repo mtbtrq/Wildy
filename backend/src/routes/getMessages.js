@@ -16,25 +16,33 @@ app.post("/get", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
+    if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) };
+
     const usernameData = db.prepare(`SELECT * FROM ${accountsTableName} WHERE username = ?`).get(username);
     const dbPassword = usernameData["password"];
+
+    if (!dbPassword) {
+        return res.send({
+            success: false,
+            cause: "No account found with the provided username!"
+        });
+    };
 
     bcrypt.compare(password, dbPassword, (err, result) => {
         if (result) {
             const getMessagesStatement = db.prepare(`SELECT * FROM ${tableName}`);
             const messages = getMessagesStatement.all();
     
-            res.send({
+            return res.send({
                 success: true,
                 data: messages
             });
         } else {
-            res.send({
+            return res.send({
                 success: false,
-                causeCode: "incorrect-pw",
                 cause: "Incorrect password entered!",
             });
-        }
+        };
     });
 });
 

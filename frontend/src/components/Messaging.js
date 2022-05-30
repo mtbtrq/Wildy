@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import io from "socket.io-client";
 
-const baseURL = require("../config.json").apiURL;
+const config = require("../config.json")
+const baseURL = config.apiURL;
 const socket = io(baseURL)
 
 const Messaging = () => {
@@ -13,7 +14,10 @@ const Messaging = () => {
         const signedInAsEl = document.getElementById("signedInAsEl");
         const signOutEl = document.getElementById("signOut");
         signedInAsEl.textContent = `Signed in as ${username}`;
-        const notificationSound = new Audio("https://cdn.discordapp.com/attachments/835071270117834773/980734087780270130/notification.mp3");
+
+        let notificationSound;
+        try { notificationSound = new Audio(config.notificationSoundURL); }
+        catch { notificationSound = null; }
     
         signOutEl.addEventListener("click", () => {
             localStorage.clear();
@@ -81,9 +85,13 @@ const Messaging = () => {
         })();
 
         socket.on("newMessage", data => {
-            notificationSound.play()
             const newMessage = document.createElement("li");
-            newMessage.classList.add("notMyMessage");
+
+            if (data.author !== username) {
+                if (notificationSound) notificationSound.play()
+                newMessage.classList.add("notMyMessage");
+            } else { newMessage.classList.add("myMessage"); }
+
             newMessage.textContent = `${data.author}: ${data.message}`;
             messagesEl.appendChild(newMessage);
         });

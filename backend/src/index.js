@@ -59,11 +59,11 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
     messageid integer primary key autoincrement
 )`).run();
 
-// Clear all messages every 24 hours
+// Clear all messages every x milliseconds (x is specified in config.json)
 setInterval(() => {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run()
     console.log("Cleared all messages!")
-}, 86400000)
+}, config.clearMessagesAfter)
 
 server.listen(port, () => {
     console.log(`I am listening to requests on port ${port}`);

@@ -20,7 +20,7 @@ a:any-link:hover {
     text-decoration: underline;
 }
 
-#button, #submitButton {
+.button, #submitButton {
     font-size: 15px;
     border: 2px solid #39adad;
     outline: 0;
@@ -32,7 +32,7 @@ a:any-link:hover {
     padding-top: 0px;
 }
 
-#button:hover, #submitButton:hover {
+.button:hover, #submitButton:hover {
     border: 2px solid #ae5ab6;
 }
 
@@ -119,4 +119,12 @@ ul {
 
 .signout:hover {
     text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+#alreadySignedInText {
+    margin-top: 70px
 }

@@ -26,22 +26,32 @@ app.post("/createaccount", async (req, res) => {
 
         if (username) {
             if (username.length < 5) {
-                return res.send({ success: false, cause: "Username should be more than 5 characters in length!" })
-            } else if (username.length > 30) return res.send({ success: false, cause: "Username should be lesser than 30 characters in length!" })
-        } else return res.send({ success: false, cause: "No username provided!" })
+                return res.send({ success: false, cause: "Username should be more than 5 characters in length!" });
+            } else if (username.length > 30) { 
+                return res.send({ success: false, cause: "Username should be lesser than 30 characters in length!" });
+            }
+        } else return res.send({ success: false, cause: "No username provided!" });
 
-        const usernameSelectStatement = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`);
-        const usernameData = usernameSelectStatement.get(username);
+        for (let bannedUsername of config.bannedUsernames) {
+            if (bannedUsername.toLowerCase() === username.toLowerCase()) {
+                return res.send({
+                    success: false,
+                    cause: "You are not allowed to have this username!"
+                });
+            };
+        };
+
+        const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
 
         if (usernameData) {
             res.send({
                 success: false,
                 cause: "User with the same username already exists!",
             });
-            return
-        }
+            return;
+        };
 
-        const encryptedPassword = await bscrypt.hash(password, 10)
+        const encryptedPassword = await bscrypt.hash(password, 10);
 
         const insertStatement = db.prepare(`INSERT INTO ${tableName} VALUES (?, ?)`);
         insertStatement.run(encryptedPassword, username);

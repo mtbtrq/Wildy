@@ -25,19 +25,25 @@ const Signup = () => {
             },
             body: JSON.stringify(data)
         }
-        await fetch(url, options).then(async response => {
-            const jsonResponse = await response.json();
-            if (jsonResponse.success === !0) {
-                statusEl.textContent = "Account Created!"
-                localStorage.setItem("username", username);
-                localStorage.setItem("password", password);
-                passwordEl.value = "";
-                usernameEl.value = "";
-                window.document.location = "/messaging";
-            } else {
-                statusEl.textContent = jsonResponse.cause
-            };
-        });
+
+        try {
+            await fetch(url, options).then(async response => {
+                const jsonResponse = await response.json();
+                if (jsonResponse.success === !0) {
+                    statusEl.textContent = "Account Created!"
+                    localStorage.setItem("username", username);
+                    localStorage.setItem("password", password);
+                    passwordEl.value = "";
+                    usernameEl.value = "";
+                    window.document.location = "/messaging";
+                } else {
+                    statusEl.textContent = jsonResponse.cause
+                };
+            });
+        } catch (err) {
+            statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275"
+            console.log(err)
+        }
     };
 
     useEffect(() => {
@@ -51,8 +57,7 @@ const Signup = () => {
                     "password": password
                 };
 
-                const baseURL = require("../config.json").apiURL;
-                const url = `${baseURL}/signin`;
+                const url = `${require("../config.json").apiURL}/signin`;
                 
                 const options = {
                     method: "POST",
@@ -62,15 +67,20 @@ const Signup = () => {
                     body: JSON.stringify(data)
                 };
                 
-                await fetch(url, options).then(async response => {
-                    const jsonResponse = await response.json();
-                    if (jsonResponse.success) {
-                        window.document.location = "/messaging";
-                    } else {
-                        localStorage.removeItem("password");
-                        localStorage.removeItem("username");
-                    };
-                });
+                try {
+                    await fetch(url, options).then(async response => {
+                        const jsonResponse = await response.json();
+                        if (jsonResponse.success) {
+                            window.document.location = "/messaging";
+                        } else {
+                            localStorage.removeItem("password");
+                            localStorage.removeItem("username");
+                        };
+                    });
+                } catch (err) {
+                    statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275";
+                    console.log(err);
+                };
             };
         })();
     }, []);
