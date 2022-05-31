@@ -9,16 +9,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const db = new Database(config["databaseName"]);
 
-const tableName = config["tableName"];
+const tableName = config["accountsTableName"];
 
 app.post("/signin", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) }
+    if (!password || !username) { 
+        return res.send({ success: false, cause: "No password or username provided!" })
+    };
 
     const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
-    const dbPassword = usernameData["password"]
+    const dbPassword = usernameData["password"];
 
     if (!dbPassword) {
         return res.send({

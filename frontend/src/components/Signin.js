@@ -80,6 +80,8 @@ const Signin = () => {
                     statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275"
                     console.log(err)
                 }
+            } else if (username || password) {
+                localStorage.clear();
             };
         })();
     }, []);

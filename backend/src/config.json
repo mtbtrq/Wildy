@@ -1,6 +1,6 @@
 {
     "port": 5000,
-    "tableName": "accounts",
+    "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database.db",
     "clearMessagesAfter": 86400000,

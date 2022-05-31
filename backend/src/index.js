@@ -27,10 +27,15 @@ io.on("connection", socket => {
 
         if (!password || !username) return;
 
-        if (!message) return res.send({ success: false, cause: "No message provided!" });
-        if (message.length > 150) return res.send({ success: false, cause: "Messages longer than 150 characters are not allowed!" });
+        if (!message) {
+            return res.send({ success: false, cause: "No message provided!" });
+        };
 
-        const dbPassword = db.prepare(`SELECT * FROM ${config["tableName"]} WHERE username = ?`).get(username)["password"];
+        if (message.length > 150) {
+            return res.send({ success: false, cause: "Messages longer than 150 characters are not allowed!" });
+        };
+
+        const dbPassword = db.prepare(`SELECT * FROM ${config["accountsTableName"]} WHERE username = ?`).get(username)["password"];
 
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
@@ -48,7 +53,7 @@ io.on("connection", socket => {
 });
 
 // Create tables
-db.prepare(`CREATE TABLE IF NOT EXISTS ${config["tableName"]} (
+db.prepare(`CREATE TABLE IF NOT EXISTS ${config["accountsTableName"]} (
     password text,
     username text
 )`).run();

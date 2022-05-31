@@ -10,13 +10,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = new Database(config["databaseName"]);
 
 const tableName = config["msgTableName"];
-const accountsTableName = config["tableName"];
+const accountsTableName = config["accountsTableName"];
 
 app.post("/get", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (!password || !username) { return res.send({ success: false, cause: "No password or username provided!" }) };
+    if (!password || !username) { 
+        return res.send({ success: false, cause: "No password or username provided!" });
+    };
 
     const usernameData = db.prepare(`SELECT * FROM ${accountsTableName} WHERE username = ?`).get(username);
     const dbPassword = usernameData["password"];

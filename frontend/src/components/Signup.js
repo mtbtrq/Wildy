@@ -24,7 +24,7 @@ const Signup = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
-        }
+        };
 
         try {
             await fetch(url, options).then(async response => {
@@ -37,13 +37,13 @@ const Signup = () => {
                     usernameEl.value = "";
                     window.document.location = "/messaging";
                 } else {
-                    statusEl.textContent = jsonResponse.cause
+                    statusEl.textContent = jsonResponse.cause;
                 };
             });
         } catch (err) {
-            statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275"
-            console.log(err)
-        }
+            statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275";
+            console.log(err);
+        };
     };
 
     useEffect(() => {
@@ -81,6 +81,8 @@ const Signup = () => {
                     statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275";
                     console.log(err);
                 };
+            } else if (username || password) {
+                localStorage.clear();
             };
         })();
     }, []);

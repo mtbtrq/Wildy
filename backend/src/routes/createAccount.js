@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const db = new Database(config["databaseName"]);
 
-const tableName = config["tableName"];
+const accountstableName = config["accountsTableName"];
 
 app.post("/createaccount", async (req, res) => {
     try {
@@ -20,17 +20,23 @@ app.post("/createaccount", async (req, res) => {
 
         if (password) {
             if (password.length < 5) {
-                return res.send({ success: false, cause: "Password should be more than 5 characters in length!" })
-            } else if (password.length > 30) return res.send({ success: false, cause: "Password should be lesser than 30 characters in length!" })
-        } else return res.send({ success: false, cause: "No password provided!" })
+                return res.send({ success: false, cause: "Password should be more than 5 characters in length!" });
+            } else if (password.length > 30) {
+                return res.send({ success: false, cause: "Password should be lesser than 30 characters in length!" });
+            }
+        } else {
+            return res.send({ success: false, cause: "No password provided!" });
+        }
 
         if (username) {
             if (username.length < 5) {
                 return res.send({ success: false, cause: "Username should be more than 5 characters in length!" });
             } else if (username.length > 30) { 
                 return res.send({ success: false, cause: "Username should be lesser than 30 characters in length!" });
-            }
-        } else return res.send({ success: false, cause: "No username provided!" });
+            };
+        } else {
+            return res.send({ success: false, cause: "No username provided!" });
+        };
 
         for (let bannedUsername of config.bannedUsernames) {
             if (bannedUsername.toLowerCase() === username.toLowerCase()) {
@@ -41,7 +47,7 @@ app.post("/createaccount", async (req, res) => {
             };
         };
 
-        const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
+        const usernameData = db.prepare(`SELECT * FROM ${accountstableName} WHERE username = ?`).get(username);
 
         if (usernameData) {
             res.send({
@@ -53,7 +59,7 @@ app.post("/createaccount", async (req, res) => {
 
         const encryptedPassword = await bscrypt.hash(password, 10);
 
-        const insertStatement = db.prepare(`INSERT INTO ${tableName} VALUES (?, ?)`);
+        const insertStatement = db.prepare(`INSERT INTO ${accountstableName} VALUES (?, ?)`);
         insertStatement.run(encryptedPassword, username);
 
         res.send({
