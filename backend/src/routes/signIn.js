@@ -20,7 +20,8 @@ app.post("/signin", (req, res) => {
     };
 
     const usernameData = db.prepare(`SELECT * FROM ${tableName} WHERE username = ?`).get(username);
-    const dbPassword = usernameData["password"];
+    let dbPassword;
+    if (usernameData) dbPassword = usernameData["password"];
 
     if (!dbPassword) {
         return res.send({

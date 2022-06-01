@@ -100,7 +100,7 @@ const Signup = () => {
             
             <p id="statusEl"></p>
             
-            <button onClick={handleClick} id="submitButton">Submit</button>
+            <button onClick={handleClick} id="submitButton">Sign Up</button>
             
             <p className="footer">Alternatively, if you have an account, you can <Link to="/signin">sign in.</Link></p>
         </>
