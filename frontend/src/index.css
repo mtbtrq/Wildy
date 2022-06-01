@@ -7,7 +7,7 @@
 }
 
 .normalText {
-    color: #fff;
+    color: #ffffff;
     font-size: medium;
 }
 
@@ -37,14 +37,14 @@ a:any-link:hover {
 }
 
 .footer {
-    color: #fff;
+    color: #ffffff;
     margin-top: 50px;
     font-size: small;
 }
 
 #statusEl {
     font-size: large;
-    color: #fff;
+    color: #ffffff;
 }
 
 body {
@@ -58,7 +58,7 @@ h1 {
 
 .label {
     font-size: large;
-    color: #fff;
+    color: #ffffff;
 }
 
 .inputBox {
@@ -102,7 +102,7 @@ ul {
 }
 
 .text {
-    color: white;
+    color: #ffffff;
     font-size: small;
     text-align: left;
     margin-top: 0px;
