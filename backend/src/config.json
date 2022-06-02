@@ -3,7 +3,7 @@
     "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database.db",
-    "clearMessagesAfter": 604,800,000,
+    "clearMessagesAfter": 604800000,
     "bannedUsernames": [
         "admin",
         "test",
