@@ -37,16 +37,19 @@ io.on("connection", socket => {
 
         const dbPassword = db.prepare(`SELECT * FROM ${config["accountsTableName"]} WHERE username = ?`).get(username)["password"];
 
+        const time = new Date().getTime();
+
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
-                const insertStatement = db.prepare(`INSERT INTO ${config["msgTableName"]} (username, message) VALUES (?, ?)`);
-                insertStatement.run(username, message);
+                const insertStatement = db.prepare(`INSERT INTO ${config["msgTableName"]} (username, message, time) VALUES (?, ?, ?)`);
+                insertStatement.run(username, message, time);
             };
         });
 
         const broadcastData = {
             "message": data.message,
-            "author": data.username
+            "author": data.username,
+            "time": time
         };
         socket.broadcast.emit("newMessage", broadcastData);
     });
@@ -61,6 +64,7 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["accountsTableName"]} (
 db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
     username text,
     message text,
+    time text,
     messageid integer primary key autoincrement
 )`).run();
 

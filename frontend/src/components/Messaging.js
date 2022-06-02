@@ -34,11 +34,14 @@ const Messaging = () => {
             
             if (message.length < 1) {
                 return;
-            }
+            };
+
+            const timeSent = new Date();
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
     
             const newMessage = document.createElement("li");
-            newMessage.classList.add("myMessage");
-            newMessage.textContent = `Me: ${message}`;
+            newMessage.classList.add("sendingMessage");
+            newMessage.textContent = `${time} - Me: ${message}`;
             messagesEl.appendChild(newMessage);
 
             const data = {
@@ -48,10 +51,11 @@ const Messaging = () => {
             };
     
             socket.emit("sendNewMessage", data)
+            newMessage.classList.add("myMessage");
+            newMessage.classList.remove("sendingMessage");
         };
 
         let previousMessages = [];
-
         
         (async () => {
             if (username && password) {
@@ -92,7 +96,10 @@ const Messaging = () => {
                 newMessage.classList.add("notMyMessage");
             } else { newMessage.classList.add("myMessage"); }
 
-            newMessage.textContent = `${data.author}: ${data.message}`;
+            const timeSent = new Date(data.time);
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
+
+            newMessage.textContent = `${time} - ${data.author}: ${data.message}`;
             messagesEl.appendChild(newMessage);
         });
 
@@ -114,20 +121,22 @@ const Messaging = () => {
             const msgs = jsonResponse["data"];
 
             msgs.forEach((msg, index) => {
-                setMessages(msg.message, index, msg.username);
+                const timeSent = new Date(parseInt(msg.time));
+                const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
+                setMessages(msg.message, index, msg.username, time);
             });
         };
         getMessages();
 
-        function setMessages(message, index, author) {
+        function setMessages(message, index, author, time) {
             if (previousMessages[index] !== message) {
                 const newMessage = document.createElement("li");
                 if (author === username) {
                     newMessage.classList.add("myMessage");
-                    newMessage.textContent = `Me: ${message}`;
+                    newMessage.textContent = `${time} - Me: ${message}`;
                 } else {
                     newMessage.classList.add("notMyMessage");
-                    newMessage.textContent = `${author}: ${message}`;
+                    newMessage.textContent = `${time} - ${author}: ${message}`;
                 };
                 messagesEl.appendChild(newMessage);
                 previousMessages.push(message);
