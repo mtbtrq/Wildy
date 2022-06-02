@@ -55,6 +55,13 @@ const Messaging = () => {
             newMessage.classList.remove("sendingMessage");
         };
 
+        
+        document.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                sendMessage();
+            };
+        });
+
         let previousMessages = [];
         
         (async () => {
