@@ -40,7 +40,7 @@ const Messaging = () => {
             const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
     
             const newMessage = document.createElement("li");
-            newMessage.classList.add("sendingMessage");
+            newMessage.classList.add("myMessage");
             newMessage.textContent = `${time} - Me: ${message}`;
             messagesEl.appendChild(newMessage);
 
@@ -50,19 +50,14 @@ const Messaging = () => {
                 message: message,
             };
     
-            socket.emit("sendNewMessage", data)
-            newMessage.classList.add("myMessage");
-            newMessage.classList.remove("sendingMessage");
+            socket.emit("sendNewMessage", data);
         };
-
         
         document.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
                 sendMessage();
             };
         });
-
-        let previousMessages = [];
         
         (async () => {
             if (username && password) {
@@ -92,7 +87,7 @@ const Messaging = () => {
             } else if (!username || !password) {
                 localStorage.clear();
                 window.document.location = "/";
-            }
+            };
         })();
 
         socket.on("newMessage", data => {
@@ -101,10 +96,10 @@ const Messaging = () => {
             if (data.author !== username) {
                 if (notificationSound) notificationSound.play()
                 newMessage.classList.add("notMyMessage");
-            } else { newMessage.classList.add("myMessage"); }
+            };
 
             const timeSent = new Date(data.time);
-            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
 
             newMessage.textContent = `${time} - ${data.author}: ${data.message}`;
             messagesEl.appendChild(newMessage);
@@ -127,31 +122,26 @@ const Messaging = () => {
             
             const msgs = jsonResponse["data"];
 
-            msgs.forEach((msg, index) => {
+            msgs.forEach((msg) => {
                 const timeSent = new Date(parseInt(msg.time));
-                const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
-                setMessages(msg.message, index, msg.username, time);
+                const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+                setMessages(msg.message, msg.username, time);
             });
         };
         getMessages();
 
-        function setMessages(message, index, author, time) {
-            if (previousMessages[index] !== message) {
-                const newMessage = document.createElement("li");
-                if (author === username) {
-                    newMessage.classList.add("myMessage");
-                    newMessage.textContent = `${time} - Me: ${message}`;
-                } else {
-                    newMessage.classList.add("notMyMessage");
-                    newMessage.textContent = `${time} - ${author}: ${message}`;
-                };
-                messagesEl.appendChild(newMessage);
-                previousMessages.push(message);
+        function setMessages(message, author, time) {
+            const newMessage = document.createElement("li");
+            if (author === username) {
+                newMessage.classList.add("myMessage");
+                newMessage.textContent = `${time} - Me: ${message}`;
+            } else {
+                newMessage.classList.add("notMyMessage");
+                newMessage.textContent = `${time} - ${author}: ${message}`;
             };
+            messagesEl.appendChild(newMessage);
         };
-    
-    }, [])
-
+    }, []);
 
     return (
 		<>

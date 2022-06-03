@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 const Signup = () => {
-    const handleClick = async () => {
+    const signUp = async () => {
         const usernameEl = document.getElementById("username");
         const passwordEl = document.getElementById("password");
         const statusEl = document.getElementById("statusEl");
+        statusEl.textContent = "Signing in...";
 
         const baseURL = require("../config.json").apiURL;
 
@@ -85,6 +86,12 @@ const Signup = () => {
                 localStorage.clear();
             };
         })();
+
+        document.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                signUp();
+            };
+        });
     }, []);
 
     return (
@@ -100,7 +107,7 @@ const Signup = () => {
             
             <p id="statusEl"></p>
             
-            <button onClick={handleClick} id="submitButton">Sign Up</button>
+            <button onClick={signUp} id="submitButton">Sign Up</button>
             
             <p className="footer">Alternatively, if you have an account, you can <Link to="/signin">sign in.</Link></p>
         </>

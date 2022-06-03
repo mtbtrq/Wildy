@@ -2,17 +2,21 @@ import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 const Signin = () => {
-    const handleClick = async () => {
+    const signIn = async () => {
         const usernameEl = document.getElementById("username");
         const passwordEl = document.getElementById("password");
         const statusEl = document.getElementById("statusEl");
+        statusEl.textContent = "Signing in...";
         
         const baseURL = require("../config.json").apiURL;
         
+        const password = passwordEl.value;
+        const username = usernameEl.value;
+
         const data = {
-            "username": usernameEl.value,
-            "password": passwordEl.value
-        }
+            "username": username,
+            "password": password
+        };
         
         const url = `${baseURL}/signin`;
         
@@ -28,9 +32,9 @@ const Signin = () => {
             await fetch(url, options).then(async response => {
                 const jsonResponse = await response.json();
                 if (jsonResponse.success) {
-                    statusEl.textContent = `Successfully signed in as ${usernameEl.value}`;
-                    localStorage.setItem("password", passwordEl.value);
-                    localStorage.setItem("username", usernameEl.value);
+                    statusEl.textContent = `Successfully signed in as ${username}`;
+                    localStorage.setItem("password", password);
+                    localStorage.setItem("username", username);
                     usernameEl.value = "";
                     passwordEl.value = "";
                     window.document.location = "/messaging";
@@ -38,11 +42,10 @@ const Signin = () => {
                     statusEl.textContent = jsonResponse.cause
                 };
             });
-        }
-        catch (err) {
+        } catch (err) {
             statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275"
             console.log(err)
-        }
+        };
     };
 
     useEffect(() => {
@@ -84,6 +87,12 @@ const Signin = () => {
                 localStorage.clear();
             };
         })();
+
+        document.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                signIn();
+            };
+        });
     }, []);
 
     return (
@@ -99,7 +108,7 @@ const Signin = () => {
 
             <p id="statusEl"></p>
 
-            <button onClick={handleClick} id="submitButton">Sign In</button>
+            <button onClick={signIn} id="submitButton">Sign In</button>
 
             <p className="footer">Alternatively, if you don't have an account, you can <Link to="/signup">sign up.</Link></p>
         </>
