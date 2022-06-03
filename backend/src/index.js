@@ -17,9 +17,20 @@ app.use("/", signInRoute);
 const getMessage = require("./routes/getMessages");
 app.use("/msg", getMessage);
 
+let onlineUsers = 0;
+let messagesSent = 0;
+
+app.get("/stats", (req, res) => {
+    return res.send({
+        onlineUsers: onlineUsers,
+        messagesSent: messagesSent
+    });
+});
+
 const server = require("http").createServer(app);
 const io = new Server(server, { cors: { origin: "*" } })
 io.on("connection", socket => {
+    onlineUsers += 1;
     socket.on("sendNewMessage", data => {
         const username = data.username;
         const message = data.message;
@@ -43,7 +54,8 @@ io.on("connection", socket => {
             if (result) {
                 const insertStatement = db.prepare(`INSERT INTO ${config["msgTableName"]} (username, message, time) VALUES (?, ?, ?)`);
                 insertStatement.run(username, message, time);
-            };
+                messagesSent += 1;
+            } else return;
         });
 
         const broadcastData = {
@@ -53,6 +65,8 @@ io.on("connection", socket => {
         };
         socket.broadcast.emit("newMessage", broadcastData);
     });
+
+    socket.on("disconnect", () => onlineUsers -= 1)
 });
 
 // Create tables
@@ -64,15 +78,14 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["accountsTableName"]} (
 db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
     username text,
     message text,
-    time text,
-    messageid integer primary key autoincrement
+    time text
 )`).run();
 
 // Clear all messages every x milliseconds (x is specified in config.json)
 setInterval(() => {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run()
     console.log("Cleared all messages!")
-}, config.clearMessagesAfter)
+}, config.clearMessagesAfter);
 
 server.listen(port, () => {
     console.log(`I am listening to requests on port ${port}`);

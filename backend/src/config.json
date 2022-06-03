@@ -3,11 +3,11 @@
     "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database.db",
+    "statsTableName": "stats",
     "clearMessagesAfter": 604800000,
     "bannedUsernames": [
-        "admin",
-        "test",
         "amongus",
-        "amogus"
+        "amogus",
+        "sus"
     ]
 }

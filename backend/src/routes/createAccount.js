@@ -23,10 +23,10 @@ app.post("/createaccount", async (req, res) => {
                 return res.send({ success: false, cause: "Password should be more than 5 characters in length!" });
             } else if (password.length > 30) {
                 return res.send({ success: false, cause: "Password should be lesser than 30 characters in length!" });
-            }
+            };
         } else {
             return res.send({ success: false, cause: "No password provided!" });
-        }
+        };
 
         if (username) {
             if (username.length < 5) {
@@ -39,10 +39,10 @@ app.post("/createaccount", async (req, res) => {
         };
 
         for (let bannedUsername of config.bannedUsernames) {
-            if (bannedUsername.toLowerCase() === username.toLowerCase()) {
+            if (username.includes(bannedUsername)) {
                 return res.send({
                     success: false,
-                    cause: "You are not allowed to have this username!"
+                    cause: "You are not allowed to have this username (it's too sussy 😳)"
                 });
             };
         };
@@ -71,7 +71,7 @@ app.post("/createaccount", async (req, res) => {
             success: false,
             cause: JSON.stringify(err),
         });
-    }
+    };
 });
 
 module.exports = app;

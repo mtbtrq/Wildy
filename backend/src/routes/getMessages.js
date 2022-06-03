@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const db = new Database(config["databaseName"]);
 
-const tableName = config["msgTableName"];
+const messagesTableName = config["msgTableName"];
 const accountsTableName = config["accountsTableName"];
 
 app.post("/get", (req, res) => {
@@ -32,7 +32,7 @@ app.post("/get", (req, res) => {
 
     bcrypt.compare(password, dbPassword, (err, result) => {
         if (result) {
-            const getMessagesStatement = db.prepare(`SELECT * FROM ${tableName}`);
+            const getMessagesStatement = db.prepare(`SELECT * FROM ${messagesTableName}`);
             const messages = getMessagesStatement.all();
     
             return res.send({
