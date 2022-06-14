@@ -26,7 +26,7 @@ function CreateChannel() {
             statusEl.textContent = `Successfully created channel! Channel name: ${response.channelName}`;
         } else {
             statusEl.textContent = response.cause;
-        }
+        };
 	};
 
 	useEffect(() => {
