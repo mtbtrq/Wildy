@@ -73,14 +73,14 @@ io.on("connection", socket => {
                     const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
                     for (let table of tables) {
                         if (table.name.toLowerCase() ===  channelName) {
-                            db.prepare(`INSERT INTO ${channelName} (username, message, time) VALUES (?, ?, ?)`).run(username, message, time);
+                            db.prepare(`INSERT INTO ${channelName.toLowerCase()} (username, message, time) VALUES (?, ?, ?)`).run(username, message, time);
 
                             const broadcastData = {
                                 "message": data.message,
                                 "author": data.username,
                                 "time": time
                             };
-                            socket.broadcast.emit(`${channelName}Message`, broadcastData);
+                            socket.broadcast.emit(`${channelName.toLowerCase()}Message`, broadcastData);
                         };
                     };
                 };

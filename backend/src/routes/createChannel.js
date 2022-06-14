@@ -15,10 +15,10 @@ app.post("/createchannel", async (req, res) => {
     try {
         const username = req.body.username;
         const password = req.body.password;
-        const channelName = (req.body.channelName).replace(/\s/g, "");
+        const channelName = req.body.channelName;
 
         if (!channelName) return res.send({ success: false, cause: "Please specify a channel name." });
-        if (channelName.toLowerCase() == "global" || channelName.toLowerCase() == config["accountsTableName"] || channelName.toLowerCase() == config["msgTableName"]) return res.send({ success: false, cause: "You are not allowed to have that channel name!" });
+        if (channelName.toLowerCase() === "global" || channelName.toLowerCase() === config["accountsTableName"] || channelName.toLowerCase() === config["msgTableName"]) return res.send({ success: false, cause: "You are not allowed to have that channel name!" });
         if (channelName.length <= 1) return res.send({ success: false, cause: "Please specify a channel name longer than one character." });
         if (channelName > 20) return res.send({ success: false, cause: "Please specify a channel name shorter than 20 characters." });
     
@@ -39,9 +39,9 @@ app.post("/createchannel", async (req, res) => {
     
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
-                try { 
-                    db.prepare(`CREATE TABLE ${channelName} (username text, message text, time text)`).run();
-                    return res.send({ success: true, channelName: channelName });
+                try {
+                    db.prepare(`CREATE TABLE ${channelName.replace(/\s/g, "").toLowerCase()} (username text, message text, time text)`).run();
+                    return res.send({ success: true, channelName: channelName.replace(/\s/g, "").toLowerCase() });
                 } catch (err) { return res.send({ success: false, cause: "A channel with that name already exists!" }) };
             } else {
                 return res.send({

@@ -33,23 +33,23 @@ app.post("/get", (req, res) => {
 
     bcrypt.compare(password, dbPassword, (err, result) => {
         if (result) {
-            if (channelName && channelName.length > 1 && channelName.length < 20) {
+            if (channelName) {
                 const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
                 for (let table of tables) {
-                    if ( table.name.toLowerCase() ==  channelName ) {
-                        return res.send({ success: true, data: db.prepare(`SELECT * FROM ${table.name}`).all() });
+                    if ( table.name.toLowerCase() ===  channelName ) {
+                        return res.send({ success: true, data: db.prepare(`SELECT * FROM ${(table.name).toLowerCase()}`).all() });
                     };
                 };
                 return res.send({ success: false, cause: "No channel found with the specified name." });
+            } else {
+                const getMessagesStatement = db.prepare(`SELECT * FROM ${messagesTableName}`);
+                const messages = getMessagesStatement.all();
+        
+                return res.send({
+                    success: true,
+                    data: messages
+                });
             };
-
-            const getMessagesStatement = db.prepare(`SELECT * FROM ${messagesTableName}`);
-            const messages = getMessagesStatement.all();
-    
-            return res.send({
-                success: true,
-                data: messages
-            });
         } else {
             return res.send({
                 success: false,

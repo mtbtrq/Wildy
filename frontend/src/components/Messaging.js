@@ -26,7 +26,7 @@ const Messaging = () => {
         });
 
         document.getElementById("channelNameSubmitButton").addEventListener("click", async () => {
-            currentChannel = document.getElementById("channelCodeInputEl").value;
+            currentChannel = document.getElementById("channelCodeInputEl").value.toLowerCase();
 
             const options = {
                 method: "POST",
@@ -46,7 +46,7 @@ const Messaging = () => {
                 document.getElementById("channelCodeInputEl").classList.add("hidden");
                 document.getElementById("channelNameSubmitButton").classList.add("hidden");
 
-                socket.on(`${currentChannel}Message`, data => {
+                socket.on(`${currentChannel.toLowerCase()}Message`, data => {
                     const newMessage = document.createElement("li");
         
                     if (data.author !== username) {

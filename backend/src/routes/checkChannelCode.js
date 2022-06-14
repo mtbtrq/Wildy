@@ -13,9 +13,6 @@ app.post("/checkchannelcode", async (req, res) => {
         const channelName = (req.body.channelName).replace(/\s/g, "").toLowerCase();
 
         if (!channelName) return res.send({ success: false, cause: "Please specify a channel name." });
-        if (channelName.toLowerCase() == "global" || channelName.toLowerCase() == config["accountsTableName"] || channelName.toLowerCase() == config["msgTableName"]) return res.send({ success: false, cause: "Invalid channel name!" });
-        if (channelName.length <= 1) return res.send({ success: false, cause: "Please specify a channel name longer than one character." });
-        if (channelName > 20) return res.send({ success: false, cause: "Please specify a channel name shorter than 20 characters." });
 
         const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
         for (let table of tables) {
