@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import io from "socket.io-client";
+import { Link } from "react-router-dom";
 
-const config = require("../config.json")
+const config = require("../config.json");
 const baseURL = config.apiURL;
-const socket = io(baseURL)
+const socket = io(baseURL);
 
 const Messaging = () => {
     useEffect(() => {
@@ -14,6 +15,55 @@ const Messaging = () => {
         const signedInAsEl = document.getElementById("signedInAsEl");
         const signOutEl = document.getElementById("signOut");
         signedInAsEl.textContent = `Signed in as ${username}`;
+
+        let currentChannel = "global";
+
+        document.getElementById("currentChannelEl").innerHTML = `You are currently talking in <b id="currentChannelName">${currentChannel}</b>`;
+
+        document.getElementById("currentChannelName").addEventListener("click", () => {
+            document.getElementById("channelCodeInputEl").classList.remove("hidden");
+            document.getElementById("channelNameSubmitButton").classList.remove("hidden");
+        });
+
+        document.getElementById("channelNameSubmitButton").addEventListener("click", async () => {
+            currentChannel = document.getElementById("channelCodeInputEl").value;
+
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ channelName: currentChannel })
+            };
+
+            const response = await (await fetch(`${baseURL}/checkchannelcode`, options)).json()
+            if (response.success) {
+                document.getElementById("currentChannelEl").innerHTML = `You are currently talking in <b id="currentChannelName">${currentChannel}</b>`;
+                document.getElementById("messages").innerHTML = "";
+
+                getMessages(currentChannel);
+
+                document.getElementById("channelCodeInputEl").classList.add("hidden");
+                document.getElementById("channelNameSubmitButton").classList.add("hidden");
+
+                socket.on(`${currentChannel}Message`, data => {
+                    const newMessage = document.createElement("li");
+        
+                    if (data.author !== username) {
+                        if (notificationSound) notificationSound.play();
+                        newMessage.classList.add("notMyMessage");
+                    };
+        
+                    const timeSent = new Date(data.time);
+                    const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+        
+                    newMessage.textContent = `${time} - ${data.author}: ${data.message}`;
+                    messagesEl.appendChild(newMessage);
+                });
+            } else {
+                document.getElementById("currentChannelEl").textContent = `Invalid channel code!`;
+            };
+        });
 
         let notificationSound;
         try { notificationSound = new Audio(config.notificationSoundURL); }
@@ -26,18 +76,18 @@ const Messaging = () => {
     
         button.addEventListener("click", sendMessage);
     
+        // Sends a new message
         function sendMessage() {
             const inputEl = document.getElementById("inputEl");
             const message = inputEl.value;
             inputEl.value = "";
-            document.getElementById("statusEl").textContent = "";
             
             if (message.length < 1) {
                 return;
             };
 
             const timeSent = new Date();
-            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
     
             const newMessage = document.createElement("li");
             newMessage.classList.add("myMessage");
@@ -48,17 +98,20 @@ const Messaging = () => {
                 username: username,
                 password: password,
                 message: message,
+                channelName: currentChannel
             };
     
             socket.emit("sendNewMessage", data);
         };
         
+        // Listen to the enter key press
         document.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
                 sendMessage();
             };
         });
         
+        // Check if signed in with correct credentials
         (async () => {
             if (username && password) {
                 const data = {
@@ -90,11 +143,12 @@ const Messaging = () => {
             };
         })();
 
-        socket.on("newMessage", data => {
+        // Handle a new message being recieved
+        socket.on(`newMessage`, data => {
             const newMessage = document.createElement("li");
 
             if (data.author !== username) {
-                if (notificationSound) notificationSound.play()
+                if (notificationSound) notificationSound.play();
                 newMessage.classList.add("notMyMessage");
             };
 
@@ -105,16 +159,15 @@ const Messaging = () => {
             messagesEl.appendChild(newMessage);
         });
 
-        async function getMessages() {
+        // Function to fetch and render all previously sent messages, executed once when application is mounted
+        async function getMessages(channelName) {
+            const data = channelName ? { username: username, password: password, channelName: channelName } : { username: username, password: password };
             const response = await fetch(`${baseURL}/msg/get`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                }),
+                body: JSON.stringify(data),
             });
 
             const jsonResponse = await response.json();
@@ -130,8 +183,9 @@ const Messaging = () => {
         };
         getMessages();
 
+        // Function to set messages in the form of an HTML list item and assign the classes depending on the author of the message
         function setMessages(message, author, time) {
-            const newMessage = document.createElement("li");
+            const newMessage = document.createElement("p");
             if (author === username) {
                 newMessage.classList.add("myMessage");
                 newMessage.textContent = `${time} - Me: ${message}`;
@@ -148,12 +202,17 @@ const Messaging = () => {
             <p id="signedInAsEl" className="text"></p>
             <p id="signOut" className="signout">(Sign Out)</p>
             <div className="parent">
+                <p id="currentChannelEl" className="normalText"></p>
+                <input className="inputBox hidden" id="channelCodeInputEl" maxLength="20" type="text" autoComplete="off" placeholder="Enter the channel's code here" />
+                <button id="channelNameSubmitButton" className="button hidden">Submit</button>
+                <br />
                 <ul id="messages"></ul>
             </div>
             <input className="inputBox" id="inputEl" maxLength="150" type="text" autoComplete="off" placeholder="Enter your message here" />
             <button id="submitButton">Send</button>
             <br />
-            <p id="statusEl"></p>
+            <br />
+            <Link to="/createchannel">Create a private channel</Link>
 		</>
 	);
 };

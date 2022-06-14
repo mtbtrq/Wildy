@@ -7,7 +7,7 @@ const config = require("../config.json");
 const app = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const db = new Database(config["databaseName"]);
+const db = new Database(`${config["databaseName"]}.db`);
 
 const accountstableName = config["accountsTableName"];
 
@@ -36,15 +36,6 @@ app.post("/createaccount", async (req, res) => {
             };
         } else {
             return res.send({ success: false, cause: "No username provided!" });
-        };
-
-        for (let bannedUsername of config.bannedUsernames) {
-            if (username.includes(bannedUsername)) {
-                return res.send({
-                    success: false,
-                    cause: "You are not allowed to have this username (it's too sussy 😳)"
-                });
-            };
         };
 
         const usernameData = db.prepare(`SELECT * FROM ${accountstableName} WHERE username = ?`).get(username);

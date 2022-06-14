@@ -7,6 +7,11 @@
     cursor: default;
 }
 
+#messages {
+    align-items: center;
+    text-align: center;
+}
+
 .normalText {
     color: #ffffff;
     font-size: medium;
@@ -47,6 +52,10 @@ a:any-link:hover {
 
 #statusEl {
     font-size: large;
+    color: #ffffff;
+}
+
+#codeStatusEl {
     color: #ffffff;
 }
 
@@ -122,7 +131,7 @@ ul {
     cursor: pointer;
 }
 
-.signout:hover {
+.signout:hover, #currentChannelName:hover {
     text-decoration: underline;
 }
 
@@ -132,4 +141,9 @@ ul {
 
 #alreadySignedInText {
     margin-top: 70px
+}
+
+#currentChannelName {
+    font-weight: normal;
+    color: #39adad;
 }

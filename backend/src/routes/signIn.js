@@ -7,7 +7,7 @@ const config = require("../config.json");
 const app = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const db = new Database(config["databaseName"]);
+const db = new Database(`${config["databaseName"]}.db`);
 
 const tableName = config["accountsTableName"];
 

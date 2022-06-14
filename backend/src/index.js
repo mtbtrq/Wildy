@@ -4,7 +4,7 @@ const config = require("./config.json");
 const bcrypt = require("bcryptjs");
 const { Server } = require("socket.io");
 
-const db = new Database(config["databaseName"]);
+const db = new Database(`${config["databaseName"]}.db`);
 
 const port = process.env.PORT || config.port;
 
@@ -13,6 +13,12 @@ app.use("/", createAccountRoute);
 
 const signInRoute = require("./routes/signIn");
 app.use("/", signInRoute);
+
+const createChannel = require("./routes/createChannel");
+app.use("/", createChannel);
+
+const checkChannelCode = require("./routes/checkChannelCode");
+app.use("/", checkChannelCode);
 
 const getMessage = require("./routes/getMessages");
 app.use("/msg", getMessage);
@@ -35,15 +41,16 @@ io.on("connection", socket => {
         const username = data.username;
         const message = data.message;
         const password = data.password;
+        const channelName = data.channelName;
 
         if (!password || !username) return;
 
         if (!message) {
-            return res.send({ success: false, cause: "No message provided!" });
+            return;
         };
 
         if (message.length > 150) {
-            return res.send({ success: false, cause: "Messages longer than 150 characters are not allowed!" });
+            return;
         };
 
         const dbPassword = db.prepare(`SELECT * FROM ${config["accountsTableName"]} WHERE username = ?`).get(username)["password"];
@@ -52,18 +59,33 @@ io.on("connection", socket => {
 
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
-                const insertStatement = db.prepare(`INSERT INTO ${config["msgTableName"]} (username, message, time) VALUES (?, ?, ?)`);
-                insertStatement.run(username, message, time);
+                if (channelName == "global") {
+                    db.prepare(`INSERT INTO ${config["msgTableName"]} (username, message, time) VALUES (?, ?, ?)`).run(username, message, time);
+
+                    const broadcastData = {
+                        "message": data.message,
+                        "author": data.username,
+                        "time": time
+                    };
+                    socket.broadcast.emit("newMessage", broadcastData);
+                } else {
+                    const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
+                    for (let table of tables) {
+                        if (table.name.toLowerCase() ===  channelName) {
+                            db.prepare(`INSERT INTO ${channelName} (username, message, time) VALUES (?, ?, ?)`).run(username, message, time);
+
+                            const broadcastData = {
+                                "message": data.message,
+                                "author": data.username,
+                                "time": time
+                            };
+                            socket.broadcast.emit(`${channelName}Message`, broadcastData);
+                        };
+                    };
+                };
                 messagesSent += 1;
             } else return;
         });
-
-        const broadcastData = {
-            "message": data.message,
-            "author": data.username,
-            "time": time
-        };
-        socket.broadcast.emit("newMessage", broadcastData);
     });
 
     socket.on("disconnect", () => onlineUsers -= 1)
