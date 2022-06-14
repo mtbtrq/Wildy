@@ -1,4 +1,5 @@
-const app = require("express")().use(require("cors")());
+const app = require("express")();
+app.use(require("cors")());
 const Database = require("better-sqlite3");
 const config = require("./config.json");
 const bcrypt = require("bcryptjs");
