@@ -29,6 +29,12 @@ function CreateChannel() {
         };
 	};
 
+    document.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            handleClick();
+        };
+    });
+
 	useEffect(() => {
 		(async () => {
             if (username && password) {
