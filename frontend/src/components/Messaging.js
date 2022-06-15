@@ -161,6 +161,7 @@ const Messaging = () => {
 
         // Function to fetch and render all previously sent messages, executed once when application is mounted
         async function getMessages(channelName) {
+            document.getElementById("messages").textContent = "Loading..."
             const data = channelName ? { username: username, password: password, channelName: channelName } : { username: username, password: password };
             const response = await fetch(`${baseURL}/msg/get`, {
                 method: "POST",
@@ -169,6 +170,7 @@ const Messaging = () => {
                 },
                 body: JSON.stringify(data),
             });
+            document.getElementById("messages").textContent = ""
 
             const jsonResponse = await response.json();
             if (!jsonResponse.success && jsonResponse.causeCode === "incorrect-pw") return window.document.location = "/";
