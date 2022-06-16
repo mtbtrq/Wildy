@@ -17,7 +17,7 @@ app.post("/checkchannelcode", async (req, res) => {
         const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
         for (let table of tables) {
             if ( table.name.toLowerCase() === channelName ) {
-                return res.send({ success: true, channelName: channelName });
+                return res.send({ success: true });
             };
         };
         return res.send({ success: false, cause: "No channel found with the specified name." });

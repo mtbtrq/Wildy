@@ -53,8 +53,7 @@ app.post("/get", (req, res) => {
         } else {
             return res.send({
                 success: false,
-                causeCode: "incorrect-pw",
-                cause: "Incorrect password entered!",
+                cause: "Incorrect password entered!"
             });
         };
     });

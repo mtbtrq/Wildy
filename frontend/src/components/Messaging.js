@@ -100,7 +100,6 @@ const Messaging = () => {
                 message: message,
                 channelName: currentChannel
             };
-            console.log(data.channelName)
     
             socket.emit("sendNewMessage", data);
         };
@@ -162,7 +161,7 @@ const Messaging = () => {
 
         // Function to fetch and render all previously sent messages, executed once when application is mounted
         async function getMessages(channelName) {
-            messagesEl.textContent = "Loading..."
+            messagesEl.textContent = "Loading...";
             const data = channelName ? { username: username, password: password, channelName: channelName } : { username: username, password: password };
             const response = await fetch(`${baseURL}/msg/get`, {
                 method: "POST",
@@ -171,10 +170,9 @@ const Messaging = () => {
                 },
                 body: JSON.stringify(data),
             });
-            messagesEl.textContent = ""
+            messagesEl.textContent = "";
 
             const jsonResponse = await response.json();
-            if (!jsonResponse.success && jsonResponse.causeCode === "incorrect-pw") return window.document.location = "/";
             
             const msgs = jsonResponse["data"];
 

@@ -40,7 +40,7 @@ app.post("/createchannel", async (req, res) => {
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
                 try {
-                    const formattedChannelName = channelName.replace(/\s/g, "").toLowerCase()
+                    const formattedChannelName = channelName.replace(/\s/g, "").toLowerCase();
                     db.prepare(`CREATE TABLE ${formattedChannelName} (username text, message text, time text)`).run();
                     setTimeout(() => { db.prepare(`DROP TABLE ${formattedChannelName}`).run()}, config.deleteChannelsAfter);
                     res.send({ success: true, channelName: formattedChannelName });
@@ -56,7 +56,7 @@ app.post("/createchannel", async (req, res) => {
         console.log(err);
         return res.send({
             success: false,
-            cause: err.message,
+            cause: err.message
         });
     };
 });

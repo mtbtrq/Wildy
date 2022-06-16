@@ -53,14 +53,14 @@ app.post("/createaccount", async (req, res) => {
         const insertStatement = db.prepare(`INSERT INTO ${accountstableName} VALUES (?, ?)`);
         insertStatement.run(encryptedPassword, username);
 
-        res.send({
+        return res.send({
             success: true
         });
     } catch (err) {
         console.log(err);
-        res.send({
+        return res.send({
             success: false,
-            cause: JSON.stringify(err),
+            cause: err.message
         });
     };
 });
