@@ -40,9 +40,11 @@ app.post("/createchannel", async (req, res) => {
         bcrypt.compare(password, dbPassword, (err, result) => {
             if (result) {
                 try {
-                    db.prepare(`CREATE TABLE ${channelName.replace(/\s/g, "").toLowerCase()} (username text, message text, time text)`).run();
-                    return res.send({ success: true, channelName: channelName.replace(/\s/g, "").toLowerCase() });
-                } catch (err) { return res.send({ success: false, cause: "A channel with that name already exists!" }) };
+                    const formattedChannelName = channelName.replace(/\s/g, "").toLowerCase()
+                    db.prepare(`CREATE TABLE ${formattedChannelName} (username text, message text, time text)`).run();
+                    setTimeout(() => { db.prepare(`DROP TABLE ${formattedChannelName}`).run()}, config.deleteChannelsAfter);
+                    res.send({ success: true, channelName: formattedChannelName });
+                } catch (err) { console.log(err); return res.send({ success: false, cause: "A channel with that name already exists!" }) };
             } else {
                 return res.send({
                     success: false,

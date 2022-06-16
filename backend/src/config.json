@@ -3,5 +3,6 @@
     "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database",
-    "clearMessagesAfter": 604800000
+    "clearMessagesAfter": 604800000,
+    "deleteChannelsAfter": 172800000
 }

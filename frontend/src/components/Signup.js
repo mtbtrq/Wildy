@@ -87,8 +87,8 @@ const Signup = () => {
             };
         })();
 
-        document.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
+        window.addEventListener("keyup", event => {
+            if (event.key === "Enter") {
                 signUp();
             };
         });

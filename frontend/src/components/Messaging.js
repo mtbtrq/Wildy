@@ -6,6 +6,8 @@ const config = require("../config.json");
 const baseURL = config.apiURL;
 const socket = io(baseURL);
 
+let currentChannel = "global";
+
 const Messaging = () => {
     useEffect(() => {
         const username = localStorage.getItem("username");
@@ -15,9 +17,7 @@ const Messaging = () => {
         const signedInAsEl = document.getElementById("signedInAsEl");
         const signOutEl = document.getElementById("signOut");
         signedInAsEl.textContent = `Signed in as ${username}`;
-
-        let currentChannel = "global";
-
+        
         document.getElementById("currentChannelEl").innerHTML = `You are currently talking in <b id="currentChannelName">${currentChannel}</b>`;
 
         document.getElementById("currentChannelName").addEventListener("click", () => {
@@ -36,10 +36,10 @@ const Messaging = () => {
                 body: JSON.stringify({ channelName: currentChannel })
             };
 
-            const response = await (await fetch(`${baseURL}/checkchannelcode`, options)).json()
+            const response = await (await fetch(`${baseURL}/checkchannelcode`, options)).json();
             if (response.success) {
                 document.getElementById("currentChannelEl").innerHTML = `You are currently talking in <b id="currentChannelName">${currentChannel}</b>`;
-                document.getElementById("messages").innerHTML = "";
+                messagesEl.innerHTML = "";
 
                 getMessages(currentChannel);
 
@@ -67,7 +67,7 @@ const Messaging = () => {
 
         let notificationSound;
         try { notificationSound = new Audio(config.notificationSoundURL); }
-        catch { notificationSound = null; }
+        catch { notificationSound = null; };
     
         signOutEl.addEventListener("click", () => {
             localStorage.clear();
@@ -92,7 +92,7 @@ const Messaging = () => {
             const newMessage = document.createElement("li");
             newMessage.classList.add("myMessage");
             newMessage.textContent = `${time} - Me: ${message}`;
-            messagesEl.appendChild(newMessage);
+            document.getElementById("messages").appendChild(newMessage);
 
             const data = {
                 username: username,
@@ -100,13 +100,14 @@ const Messaging = () => {
                 message: message,
                 channelName: currentChannel
             };
+            console.log(data.channelName)
     
             socket.emit("sendNewMessage", data);
         };
         
         // Listen to the enter key press
-        document.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
+        window.addEventListener("keyup", event => {
+            if (event.key === "Enter") {
                 sendMessage();
             };
         });
@@ -161,7 +162,7 @@ const Messaging = () => {
 
         // Function to fetch and render all previously sent messages, executed once when application is mounted
         async function getMessages(channelName) {
-            document.getElementById("messages").textContent = "Loading..."
+            messagesEl.textContent = "Loading..."
             const data = channelName ? { username: username, password: password, channelName: channelName } : { username: username, password: password };
             const response = await fetch(`${baseURL}/msg/get`, {
                 method: "POST",
@@ -170,7 +171,7 @@ const Messaging = () => {
                 },
                 body: JSON.stringify(data),
             });
-            document.getElementById("messages").textContent = ""
+            messagesEl.textContent = ""
 
             const jsonResponse = await response.json();
             if (!jsonResponse.success && jsonResponse.causeCode === "incorrect-pw") return window.document.location = "/";
