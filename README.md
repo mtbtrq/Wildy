@@ -1,5 +1,7 @@
 <h1>Full Stack Chat Application</h1>
 
+<a href="https://imgur.com/a/Uf8RVW1">Image Gallery</a>
+
 <h3>How to run?</h3>
 <ul>
   <li>Go to the <code>backend</code> folder, and run <code>install_deps.bat</code> to install all the dependencies.</kli>
@@ -23,6 +25,4 @@
   <li>Type <code>git commit -m "{anything you want, or you could just leave this as is}"</code></li>
   <li>Type <code>heroku create</code> or <code>heroku create {any name you would like to choose}</code></li>
   <li>Finally, type <code>git push heroku main</code>, if that doesn't work type <code>git push heroku master</code></li>
-  
-  https://i.imgur.com/9DMYxMP.png
 </ul>
