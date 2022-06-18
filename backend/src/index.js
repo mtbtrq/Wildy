@@ -108,10 +108,14 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
 setInterval(async () => {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
     if (config.sendAlertsToAPI) {
-        const fetch = require("node-fetch-commonjs");
-        const options = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: `**Chat Application**\nCleared All messages from global chat.` }) };
-        const apiURL = process.env.alertsAPI || config.alertsAPIURL;
-        await fetch(apiURL, options);
+        try {
+            const fetch = require("node-fetch-commonjs");
+            const options = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: `**Chat Application**\nCleared All messages from global chat.` }) };
+            const apiURL = process.env.alertsAPI || config.alertsAPIURL;
+            await fetch(apiURL, options);
+        } catch (err) {
+            console.log(err)
+        };
     } else {
         console.log("Cleared all messages from global chat.");
     };
