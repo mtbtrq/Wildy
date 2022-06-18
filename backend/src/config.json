@@ -3,7 +3,7 @@
     "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database",
-    "clearMessagesAfter": 5000,
+    "clearMessagesAfter": 604800000,
     "deleteChannelsAfter": 172800000,
     "sendAlertsToAPI": true,
     "alertsAPIURL": ""
