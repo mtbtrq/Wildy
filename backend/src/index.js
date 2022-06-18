@@ -105,9 +105,16 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
 )`).run();
 
 // Clear all messages every x milliseconds from the global chat (x is specified in config.json)
-setInterval(() => {
-    db.prepare(`DELETE FROM ${config["msgTableName"]}`).run()
-    console.log("Cleared all messages!")
+setInterval(async () => {
+    db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
+    if (config.sendAlertsToAPI) {
+        const fetch = require("node-fetch-commonjs");
+        const options = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: `**Chat Application**\nCleared All messages from global chat.` }) };
+        const apiURL = process.env.alertsAPI || config.alertsAPIURL;
+        await fetch(apiURL, options);
+    } else {
+        console.log("Cleared all messages from global chat.");
+    };
 }, config.clearMessagesAfter);
 
 server.listen(port, () => {
