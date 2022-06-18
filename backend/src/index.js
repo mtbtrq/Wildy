@@ -113,11 +113,14 @@ setInterval(async () => {
             const options = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: `**Chat Application**\nCleared All messages from global chat.` }) };
             const apiURL = process.env.alertsAPI || config.alertsAPIURL;
             await fetch(apiURL, options);
+            return;
         } catch (err) {
             console.log(err);
+            return;
         };
     } else {
         console.log("Cleared all messages from global chat.");
+        return;
     };
 }, config.clearMessagesAfter);
 
