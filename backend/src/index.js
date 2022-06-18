@@ -114,7 +114,7 @@ setInterval(async () => {
             const apiURL = process.env.alertsAPI || config.alertsAPIURL;
             await fetch(apiURL, options);
         } catch (err) {
-            console.log(err)
+            console.log(err);
         };
     } else {
         console.log("Cleared all messages from global chat.");
