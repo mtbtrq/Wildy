@@ -6,5 +6,5 @@
     "clearMessagesAfter": 604800000,
     "deleteChannelsAfter": 172800000,
     "sendAlertsToAPI": true,
-    "alertsAPIURL": ""
+    "alertsAPIURL": "INSERT YOUR ALERTS API URL HERE"
 }
