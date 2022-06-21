@@ -7,7 +7,7 @@ function CreateChannel() {
 	const username = localStorage.getItem("username");
 	const password = localStorage.getItem("password");
 
-	const handleClick = async () => {
+	const create = async () => {
 		const channelCode = document.getElementById("privateChannelCodeEl").value;
 		document.getElementById("privateChannelCodeEl").value = "";
 		const statusEl = document.getElementById("codeStatusEl");
@@ -31,7 +31,7 @@ function CreateChannel() {
 
     window.addEventListener("keyup", event => {
         if (event.key === "Enter") {
-            handleClick();
+            create();
         };
     });
 
@@ -72,7 +72,7 @@ function CreateChannel() {
 		<>
 			<h1>Create a private channel</h1>
 			<input className="inputBox" type="text" id="privateChannelCodeEl" maxLength="20" autoComplete="off" placeholder="Enter your code here"/>
-			<button id="submitButton" onClick={handleClick}>Create</button>
+			<button id="submitButton" onClick={create}>Create</button>
 			<p id="codeStatusEl"></p>
             <br />
             <Link to="/messaging">Start Messaging</Link>

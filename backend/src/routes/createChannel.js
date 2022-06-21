@@ -20,7 +20,7 @@ app.post("/createchannel", async (req, res) => {
         if (!channelName) return res.send({ success: false, cause: "Please specify a channel name." });
         if (channelName.toLowerCase() === "global" || channelName.toLowerCase() === config["accountsTableName"] || channelName.toLowerCase() === config["msgTableName"]) return res.send({ success: false, cause: "You are not allowed to have that channel name!" });
         if (channelName.length <= 1) return res.send({ success: false, cause: "Please specify a channel name longer than one character." });
-        if (channelName > 20) return res.send({ success: false, cause: "Please specify a channel name shorter than 20 characters." });
+        if (channelName.length > 20) return res.send({ success: false, cause: "Please specify a channel name shorter than 20 characters." });
     
         if (!password || !username) { 
             return res.send({ success: false, cause: "No password or username provided!" })
