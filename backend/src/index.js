@@ -34,6 +34,18 @@ app.get("/stats", (req, res) => {
     });
 });
 
+app.post("/truncate", (req, res) => {
+    const password = process.env.password || config.adminPassword;
+    const usersPassword = req.body.password;
+
+    if (password === usersPassword) {
+        clearMessages();
+        return res.send({ success: true });
+    } else {
+        return res.send({ success: false, cause: "Incorrect password" });
+    };
+});
+
 const server = require("http").createServer(app);
 const io = new Server(server, { cors: { origin: "*" } })
 io.on("connection", socket => {
@@ -105,12 +117,22 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
 )`).run();
 
 // Clear all messages every x milliseconds from the global chat (x is specified in config.json)
-setInterval(async () => {
+setInterval(clearMessages, config.clearMessagesAfter);
+
+async function clearMessages() {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
     if (config.sendAlertsToAPI) {
         try {
             const fetch = require("node-fetch-commonjs");
-            const options = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: `**Chat Application**\nCleared All messages from global chat.` }) };
+            const options = {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    content: `**Chat Application**\nCleared All messages from global chat.`
+                })
+            };
             const apiURL = process.env.alertsAPI || config.alertsAPIURL;
             await fetch(apiURL, options);
             return;
@@ -122,7 +144,7 @@ setInterval(async () => {
         console.log("Cleared all messages from global chat.");
         return;
     };
-}, config.clearMessagesAfter);
+};
 
 server.listen(port, () => {
     console.log(`I am listening to requests on port ${port}`);
