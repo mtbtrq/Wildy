@@ -61,6 +61,7 @@ const Messaging = () => {
                     messagesEl.appendChild(newMessage);
                 });
             } else {
+                currentChannel = "global";
                 document.getElementById("currentChannelEl").textContent = `Invalid channel code!`;
             };
         });
