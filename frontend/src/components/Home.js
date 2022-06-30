@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
     useEffect(() => {
+        const baseURL = require("../config.json").apiURL;
         (async () => {
             const username = localStorage.getItem("username");
             const password = localStorage.getItem("password");
@@ -12,8 +13,6 @@ function Home() {
                     "username": username,
                     "password": password
                 };
-
-                const url = `${require("../config.json").apiURL}/signin`;
                 
                 const options = {
                     method: "POST",
@@ -24,7 +23,7 @@ function Home() {
                 };
                 
                 try {
-                    await fetch(url, options).then(async response => {
+                    await fetch(`${baseURL}/signin`, options).then(async response => {
                         const jsonResponse = await response.json();
                         if (jsonResponse.success) {
                             document.getElementById("alreadySignedInText").classList.remove("hidden");
@@ -40,17 +39,24 @@ function Home() {
                 };
             };
         })();
+
+        (async () => {
+            await fetch(`${baseURL}/stats`).then(async response => {
+                response = await response.json();
+                document.getElementById("statsEl").textContent = `${response.onlineUsers} online user(s) with ${response.messagesSent} messages sent.`
+            });
+        })();
     }, []);
 
     return (
         <div>
             <h1>Chat Application</h1>
 
-            <p className="normalText">Not the perfect means of communication, but it works :)</p>
+            <p className="normalText" id="statsEl"></p>
 
-            <p className="normalText">Report bugs and suggestions on discord (I know, ironic) Mutyyab.#4275</p>
+            <p className="normalText">Report bugs and suggestions on discord Mutyyab.#4275.</p>
 
-            <p className="normalText">To continue, perform any of the actions below.</p>
+            <p className="normalText">To start messaging, perform any of the actions below.</p>
 
             <Link to="/signup"><button className="button">Sign Up</button></Link>
             <Link to="/signin"><button className="button">Sign In</button></Link>
