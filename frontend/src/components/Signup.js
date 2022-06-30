@@ -6,7 +6,7 @@ const Signup = () => {
         const usernameEl = document.getElementById("username");
         const passwordEl = document.getElementById("password");
         const statusEl = document.getElementById("statusEl");
-        statusEl.textContent = "Signing in...";
+        statusEl.textContent = "Signing up...";
 
         const baseURL = require("../config.json").apiURL;
 
