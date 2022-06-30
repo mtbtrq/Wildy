@@ -26,11 +26,15 @@ app.use("/msg", getMessage);
 
 let onlineUsers = 0;
 let messagesSent = 0;
+let globalMessages = 0;
+let channelMessages = 0;
 
 app.get("/stats", (req, res) => {
     return res.send({
         onlineUsers: onlineUsers,
-        messagesSent: messagesSent
+        messagesSent: messagesSent,
+        globalMessages: globalMessages,
+        channelMessages: channelMessages
     });
 });
 
@@ -81,6 +85,7 @@ io.on("connection", socket => {
                         "time": time
                     };
                     socket.broadcast.emit("newMessage", broadcastData);
+                    globalMessages += 1;
                 } else {
                     const tables = db.prepare(`SELECT name FROM sqlite_schema WHERE type='table'`).all();
                     for (let table of tables) {
@@ -95,6 +100,7 @@ io.on("connection", socket => {
                             socket.broadcast.emit(`${channelName.toLowerCase()}Message`, broadcastData);
                         };
                     };
+                    channelMessages += 1;
                 };
                 messagesSent += 1;
             } else return;
