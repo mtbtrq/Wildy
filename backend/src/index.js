@@ -127,6 +127,8 @@ setInterval(clearMessages, config.clearMessagesAfter);
 
 async function clearMessages() {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
+    messagesSent -= globalMessages;
+    globalMessages = 0;
     if (config.sendAlertsToAPI) {
         try {
             const fetch = require("node-fetch-commonjs");
