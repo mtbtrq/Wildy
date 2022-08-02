@@ -106,7 +106,6 @@ io.on("connection", socket => {
             } else return;
         });
     });
-
     socket.on("disconnect", () => onlineUsers -= 1)
 });
 
