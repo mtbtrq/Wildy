@@ -97,7 +97,6 @@ io.on("connection", socket => {
                         };
                     };
                 };
-                messagesSent += 1;
             } else return;
         });
     });
