@@ -5,7 +5,7 @@
     "databaseName": "database",
     "clearMessagesAfter": 604800000,
     "deleteChannelsAfter": 172800000,
-    "sendAlertsToAPI": true,
+    "sendAlertsToAPI": false,
     "alertsAPIURL": "INSERT YOUR ALERTS API URL HERE",
-    "adminPassword": "admin123"
+    "adminPassword": "iloveass@1"
 }
