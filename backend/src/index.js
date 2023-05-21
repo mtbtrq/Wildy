@@ -115,9 +115,6 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
     time text
 )`).run();
 
-// Clear all messages every x milliseconds from the global chat (x is specified in config.json)
-setInterval(clearMessages, config.clearMessagesAfter);
-
 async function clearMessages() {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
     messagesSent = 0;

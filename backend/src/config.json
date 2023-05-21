@@ -3,7 +3,6 @@
     "accountsTableName": "accounts",
     "msgTableName": "messaging",
     "databaseName": "database",
-    "clearMessagesAfter": 604800000,
     "deleteChannelsAfter": 172800000,
     "sendAlertsToAPI": false,
     "alertsAPIURL": "INSERT YOUR ALERTS API URL HERE",

@@ -50,7 +50,7 @@ function Home() {
 
     return (
         <div>
-            <h1>Chat Application</h1>
+            <h1>Wildy - A Chat Application</h1>
 
             <p className="normalText" id="statsEl"></p>
 
