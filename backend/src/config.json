@@ -4,7 +4,7 @@
     "msgTableName": "messaging",
     "databaseName": "database",
     "deleteChannelsAfter": 172800000,
-    "sendAlertsToAPI": false,
-    "alertsAPIURL": "INSERT YOUR ALERTS API URL HERE",
+    "sendAlertsToAPI": true,
+    "alertsAPIURL": "https://alerts.cyclic.app/send",
     "adminPassword": "iloveass@1"
 }

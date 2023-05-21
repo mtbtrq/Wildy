@@ -127,7 +127,7 @@ async function clearMessages() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    content: `**Chat Application**\nCleared All messages from global chat.`
+                    content: `**Wildy**\nCleared All messages from global chat.`
                 })
             };
             const apiURL = process.env.alertsAPI || config.alertsAPIURL;
