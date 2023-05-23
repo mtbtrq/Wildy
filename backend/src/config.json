@@ -4,7 +4,7 @@
     "msgTableName": "messaging",
     "databaseName": "database",
     "deleteChannelsAfter": 172800000,
-    "sendAlertsToAPI": false,
-    "alertsAPIURL": "",
+    "sendAlertsToAPI": true,
+    "alertsAPIURL": "https://discordalertsapi.up.railway.app/send",
     "adminPassword": ""
 }
