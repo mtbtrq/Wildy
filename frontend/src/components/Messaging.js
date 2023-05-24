@@ -146,15 +146,14 @@ const Messaging = () => {
 
         // Handle a new message being recieved
         socket.on(`newMessage`, data => {
+            console.log(data);
             const newMessage = document.createElement("li");
 
             if (data.author !== username) {
                 if (notificationSound) notificationSound.play();
                 newMessage.classList.add("notMyMessage");
-                console.log(data.author);
             } else {
                 newMessage.classList.add("myMessage");
-                console.log(data.author);
             };
 
             const timeSent = new Date(data.time);
