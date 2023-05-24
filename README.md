@@ -26,3 +26,8 @@
   <li>Type <code>heroku create</code> or <code>heroku create {any name you would like to choose}</code></li>
   <li>Finally, type <code>git push heroku main</code>, if that doesn't work type <code>git push heroku master</code></li>
 </ul>
+
+<h3>How to deploy on Railway (much better option)</h3>
+<p>Simply click the button below</p>
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/rPt4fy?referralCode=Ki33Dj)
