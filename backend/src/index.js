@@ -118,29 +118,8 @@ db.prepare(`CREATE TABLE IF NOT EXISTS ${config["msgTableName"]} (
 async function clearMessages() {
     db.prepare(`DELETE FROM ${config["msgTableName"]}`).run();
     messagesSent = 0;
-    if (config.sendAlertsToAPI) {
-        try {
-            const fetch = require("node-fetch-commonjs");
-            const options = {
-                method: "POST", 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    content: `**Wildy**\nCleared All messages from global chat.`
-                })
-            };
-            const apiURL = process.env.alertsAPI || config.alertsAPIURL;
-            await fetch(apiURL, options);
-            return;
-        } catch (err) {
-            console.log(err);
-            return;
-        };
-    } else {
-        console.log("Cleared all messages from global chat.");
-        return;
-    };
+    console.log("Cleared all messages from global chat.");
+    return;
 };
 
 server.listen(port, () => {
