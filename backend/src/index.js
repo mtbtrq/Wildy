@@ -77,7 +77,7 @@ io.on("connection", socket => {
 
                     const broadcastData = {
                         "message": data.message,
-                        "author": data.username,
+                        "username": data.username,
                         "time": time
                     };
                     socket.broadcast.emit("newMessage", broadcastData);

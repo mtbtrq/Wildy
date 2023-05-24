@@ -76,41 +76,6 @@ const Messaging = () => {
         });
     
         button.addEventListener("click", sendMessage);
-    
-        // Sends a new message
-        function sendMessage() {
-            const inputEl = document.getElementById("inputEl");
-            const message = inputEl.value;
-            inputEl.value = "";
-            
-            if (message.length < 1) {
-                return;
-            };
-
-            const timeSent = new Date();
-            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
-    
-            const newMessage = document.createElement("li");
-            newMessage.classList.add("myMessage");
-            newMessage.textContent = `${time} - Me: ${message}`;
-            document.getElementById("messages").appendChild(newMessage);
-
-            const data = {
-                username: username,
-                password: password,
-                message: message,
-                channelName: currentChannel
-            };
-    
-            socket.emit("sendNewMessage", data);
-        };
-        
-        // Listen to the enter key press
-        window.addEventListener("keyup", event => {
-            if (event.key === "Enter") {
-                sendMessage();
-            };
-        });
         
         // Check if signed in with correct credentials
         (async () => {
@@ -144,12 +109,48 @@ const Messaging = () => {
             };
         })();
 
+        // Sends a new message
+        function sendMessage() {
+            const inputEl = document.getElementById("inputEl");
+            const message = inputEl.value;
+            inputEl.value = "";
+            
+            if (message.length < 1) {
+                return;
+            };
+
+            const timeSent = new Date();
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+    
+            const newMessage = document.createElement("li");
+            newMessage.classList.add("myMessage");
+            newMessage.textContent = `${time} - Me: ${message}`;
+            document.getElementById("messages").appendChild(newMessage);
+
+            const data = {
+                username: username,
+                password: password,
+                message: message,
+                channelName: currentChannel
+            };
+            console.log(data)
+    
+            socket.emit("sendNewMessage", data);
+        };
+        
+        // Listen to the enter key press
+        window.addEventListener("keyup", event => {
+            if (event.key === "Enter") {
+                sendMessage();
+            };
+        });
+        
         // Handle a new message being recieved
         socket.on(`newMessage`, data => {
             console.log(data);
             const newMessage = document.createElement("li");
 
-            if (data.author !== username) {
+            if (data.username !== username) {
                 if (notificationSound) notificationSound.play();
                 newMessage.classList.add("notMyMessage");
             } else {
@@ -159,7 +160,7 @@ const Messaging = () => {
             const timeSent = new Date(data.time);
             const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
 
-            newMessage.textContent = `${time} - ${data.author}: ${data.message}`;
+            newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
             messagesEl.appendChild(newMessage);
         });
 
