@@ -1,4 +1,4 @@
-<h1>Full Stack Chat Application</h1>
+<h1>Wildy - A Full Stack Chat Application</h1>
 
 <a href="https://imgur.com/a/Uf8RVW1">Image Gallery</a>
 
