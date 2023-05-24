@@ -148,15 +148,17 @@ const Messaging = () => {
         socket.on(`newMessage`, data => {
             const newMessage = document.createElement("li");
 
+            const timeSent = new Date(data.time);
+            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+
             if (data.username !== username) {
                 if (notificationSound) notificationSound.play();
                 newMessage.classList.add("notMyMessage");
+                newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
             } else {
                 newMessage.classList.add("myMessage");
+                newMessage.textContent = `${time} - Me: ${data.message}`;
             };
-
-            const timeSent = new Date(data.time);
-            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
 
             newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
             messagesEl.appendChild(newMessage);
