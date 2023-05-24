@@ -1,6 +1,7 @@
 <h1>Wildy - A Full Stack Chat Application</h1>
 
 <a href="https://imgur.com/a/nLYVhtn">Image Gallery</a>
+<a href="https://private.up.railway.app/i/gn2h2">How To Use</a>
 
 <h3>How to run?</h3>
 <ul>
