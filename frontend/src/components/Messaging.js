@@ -133,7 +133,6 @@ const Messaging = () => {
                 message: message,
                 channelName: currentChannel
             };
-            console.log(data)
     
             socket.emit("sendNewMessage", data);
         };
@@ -147,7 +146,6 @@ const Messaging = () => {
         
         // Handle a new message being recieved
         socket.on(`newMessage`, data => {
-            console.log(data);
             const newMessage = document.createElement("li");
 
             if (data.username !== username) {
