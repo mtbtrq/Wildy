@@ -151,6 +151,8 @@ const Messaging = () => {
             if (data.author !== username) {
                 if (notificationSound) notificationSound.play();
                 newMessage.classList.add("notMyMessage");
+            } else {
+                newMessage.classList.add("myMessage");
             };
 
             const timeSent = new Date(data.time);
