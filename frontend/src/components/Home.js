@@ -63,6 +63,10 @@ function Home() {
 
             <p className="normalText hidden" id="alreadySignedInText">You are already signed in</p>
             <Link to="/messaging"><button id="startMessagingbutton" className="hidden button">Start Messaging</button></Link>
+
+            <br />
+
+            <Link to="/tutorial"><p>Tutorial</p></Link>
         </div>
     );
 };

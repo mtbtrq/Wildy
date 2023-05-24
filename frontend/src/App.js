@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import Signin from './components/Signin';
 import Messaging from './components/Messaging';
 import CreateChannel from './components/CreateChannel';
+import Tutorial from "./components/Tutorial";
 
 const App = () => {
     return (
@@ -14,6 +15,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/signin" element={<Signin />} />
+                <Route path="/tutorial" element={<Tutorial />} />
                 <Route path="/messaging" element={<Messaging />} />
                 <Route path="/createchannel" element={<CreateChannel />} />
             </Routes>
