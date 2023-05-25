@@ -90,8 +90,7 @@ li {
 }
 
 video {
-    width: 50%;
-    height: auto;
+    width: 80%;
 }
 
 .myMessage, .notMyMessage, .sendingMessage {
