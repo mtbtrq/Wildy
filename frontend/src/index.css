@@ -89,6 +89,11 @@ li {
     list-style: none;
 }
 
+video {
+    width: 50%;
+    height: auto;
+}
+
 .myMessage, .notMyMessage, .sendingMessage {
     color: #ffffff;
     border-radius: 5px;
