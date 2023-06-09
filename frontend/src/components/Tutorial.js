@@ -5,7 +5,7 @@ const Tutorial = () => {
     return(
         <>
             <video controls autoPlay>
-                <source src="https://private.up.railway.app/i/tutorial" type="video/ogg"/>
+                <source src="https://cdn.discordapp.com/attachments/948294688291565599/1111192800357265448/Tutorial.mp4" type="video/mp4"/>
             </video>
 
             <Link to="/"><p>Back To Home</p></Link>
