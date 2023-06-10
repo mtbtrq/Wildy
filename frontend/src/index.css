@@ -41,6 +41,12 @@ a:any-link:hover {
     padding-top: 0px;
 }
 
+#links-create-channel {
+    display: flex;
+    justify-content: center;
+    gap: 20px
+}
+
 .button:hover, #submitButton:hover {
     border: 2px solid #ae5ab6;
 }
@@ -121,7 +127,7 @@ ul {
     margin-top: 20px;
 }
 
-.text {
+.signed-in-as-text {
     color: #ffffff;
     font-size: small;
     text-align: left;

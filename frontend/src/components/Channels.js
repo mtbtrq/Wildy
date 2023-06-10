@@ -6,7 +6,7 @@ const config = require("../config.json");
 const baseURL = config.apiURL;
 const socket = io(baseURL);
 
-let currentChannel = "global";
+let currentChannel = " ";
 
 const Messaging = () => {
     useEffect(() => {
@@ -17,6 +17,49 @@ const Messaging = () => {
         const signedInAsEl = document.getElementById("signedInAsEl");
         const signOutEl = document.getElementById("signOut");
         signedInAsEl.textContent = `Signed in as ${username}`;
+
+        document.getElementById("channelNameSubmitButton").addEventListener("click", async () => {
+            currentChannel = document.getElementById("channelCodeInputEl").value.toLowerCase();
+
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ channelName: currentChannel })
+            };
+
+            const response = await (await fetch(`${baseURL}/checkchannelcode`, options)).json();
+            if (response.success) {
+                document.getElementById("currentChannelEl").innerHTML = `You are currently talking in <b id="currentChannelName">${currentChannel}</b>`;
+                messagesEl.innerHTML = "";
+
+                getMessages(currentChannel);
+
+                document.getElementById("channelCodeInputEl").classList.add("hidden");
+                document.getElementById("channelNameSubmitButton").classList.add("hidden");
+                document.getElementById("enterChannelName").classList.add("hidden")
+                document.getElementById("inputEl").classList.remove("hidden")
+                document.getElementById("submitButton").classList.remove("hidden")
+
+                socket.on(`${currentChannel.toLowerCase()}Message`, data => {
+                    const newMessage = document.createElement("li");
+        
+                    if (data.author !== username) {
+                        if (notificationSound) notificationSound.play();
+                        newMessage.classList.add("notMyMessage");
+                    };
+        
+                    const timeSent = new Date(data.time);
+                    const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+        
+                    newMessage.textContent = `${time} - ${data.author}: ${data.message}`;
+                    messagesEl.appendChild(newMessage);
+                });
+            } else {
+                document.getElementById("currentChannelEl").textContent = `Invalid channel code!`;
+            };
+        });
 
         let notificationSound;
         try { notificationSound = new Audio(config.notificationSoundURL); }
@@ -119,7 +162,7 @@ const Messaging = () => {
         // Function to fetch and render all previously sent messages, executed once when application is mounted
         async function getMessages(channelName) {
             messagesEl.textContent = "Loading...";
-            const data = channelName ? { username: username, password: password, channelName: channelName } : { username: username, password: password };
+            const data = { username: username, password: password, channelName: channelName };
             const response = await fetch(`${baseURL}/msg/get`, {
                 method: "POST",
                 headers: {
@@ -139,7 +182,6 @@ const Messaging = () => {
                 setMessages(msg.message, msg.username, time);
             });
         };
-        getMessages();
 
         // Function to set messages in the form of an HTML list item and assign the classes depending on the author of the message
         function setMessages(message, author, time) {
@@ -159,17 +201,27 @@ const Messaging = () => {
 		<>
             <p id="signedInAsEl" className="signed-in-as-text"></p>
             <p id="signOut" className="signout">(Sign Out)</p>
-            <p id="currentChannelEl" className="normalText">You are currently talking in <b id="currentChannelName">global</b></p>
 
+            <br />
+
+            <p id="currentChannelEl" className="normalText"></p>
+            <p className="normalText" id="enterChannelName">Enter the channel's name here</p>
+            <input className="inputBox" id="channelCodeInputEl" maxLength="20" type="text" autoComplete="off" placeholder="Enter the channel's code here" />
+            <button id="channelNameSubmitButton" className="button">Submit</button>
+
+            <div className="hidden">
+                
+            </div>
             <br />
             <ul id="messages"></ul>
-            <br />
 
-            <input className="inputBox" id="inputEl" maxLength="150" type="text" autoComplete="off" placeholder="Enter your message here" />
-            <button id="submitButton">Send</button>
+            <br />
+            
+            <input className="inputBox hidden" id="inputEl" maxLength="150" type="text" autoComplete="off" placeholder="Enter your message here" />
+            <button id="submitButton" className="hidden">Send</button>
             <br />
             <br />
-            <Link to="/createchannel">Create a private channel</Link>
+            <Link to="/messaging">Back to Global Chat</Link>
 		</>
 	);
 };

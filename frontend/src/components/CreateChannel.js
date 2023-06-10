@@ -70,12 +70,17 @@ function CreateChannel() {
 
     return (
 		<>
-			<h1>Create a private channel</h1>
+            <h1>Create a private channel</h1>
+            <p className="normalText">Create a unique channel code. This is the code your friends will use to talk to each other.</p>
+            <p className="normalText">Other people can also access the channel if they know the channel code, so if you can, try making the channel code hard to guess.</p>
 			<input className="inputBox" type="text" id="privateChannelCodeEl" maxLength="20" autoComplete="off" placeholder="Enter your code here"/>
 			<button id="submitButton" onClick={create}>Create</button>
 			<p id="codeStatusEl"></p>
             <br />
-            <Link to="/messaging">Start Messaging</Link>
+            <div id="links-create-channel">
+                <Link to="/channels">Start Messaging</Link>
+                <Link to="/messaging" >Back To Global</Link>
+            </div>
 		</>
 	);
 };
