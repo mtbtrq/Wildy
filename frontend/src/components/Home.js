@@ -34,7 +34,7 @@ function Home() {
                         };
                     });
                 } catch (err) {
-                    console.log("Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275")
+                    console.log("Something went wrong! Contact Mutayyab on discord: mutyyab")
                     console.log(err)
                 };
             };
@@ -54,7 +54,7 @@ function Home() {
 
             <p className="normalText" id="statsEl"></p>
 
-            <p className="normalText">Report bugs and suggestions on discord Mutyyab.#4275.</p>
+            <p className="normalText">Report bugs and suggestions on discord mutyyab</p>
 
             <p className="normalText">To start messaging, perform any of the actions below.</p>
 

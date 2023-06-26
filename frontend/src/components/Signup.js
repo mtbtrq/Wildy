@@ -42,7 +42,7 @@ const Signup = () => {
                 };
             });
         } catch (err) {
-            statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275";
+            statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: mutyyab";
             console.log(err);
         };
     };
@@ -79,7 +79,7 @@ const Signup = () => {
                         };
                     });
                 } catch (err) {
-                    statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: Mutyyab.#4275";
+                    statusEl.textContent = "Something went wrong! Contact Mutayyab on discord: mutyyab";
                     console.log(err);
                 };
             } else if (username || password) {
