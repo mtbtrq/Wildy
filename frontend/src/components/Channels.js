@@ -141,22 +141,24 @@ const Messaging = () => {
         
         // Handle a new message being recieved
         socket.on(`newMessage`, data => {
-            const newMessage = document.createElement("li");
+            if (data.channelName === currentChannel) {
+                const newMessage = document.createElement("li");
 
-            const timeSent = new Date(data.time);
-            const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
-
-            if (data.username !== username) {
-                if (notificationSound) notificationSound.play();
-                newMessage.classList.add("notMyMessage");
+                const timeSent = new Date(data.time);
+                const time = `${timeSent.getUTCHours()}:${timeSent.getUTCMinutes()}:${timeSent.getUTCSeconds()}`;
+    
+                if (data.username !== username) {
+                    if (notificationSound) notificationSound.play();
+                    newMessage.classList.add("notMyMessage");
+                    newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
+                } else {
+                    newMessage.classList.add("myMessage");
+                    newMessage.textContent = `${time} - Me: ${data.message}`;
+                };
+    
                 newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
-            } else {
-                newMessage.classList.add("myMessage");
-                newMessage.textContent = `${time} - Me: ${data.message}`;
+                messagesEl.appendChild(newMessage);
             };
-
-            newMessage.textContent = `${time} - ${data.username}: ${data.message}`;
-            messagesEl.appendChild(newMessage);
         });
 
         // Function to fetch and render all previously sent messages, executed once when application is mounted
